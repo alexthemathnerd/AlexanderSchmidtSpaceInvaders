@@ -7,7 +7,7 @@
     /// <seealso cref="SpaceInvaders.Model.GameObject" />
     public abstract class EnemyShip : GameObject
     {
-
+        private const int MaxStep = 10; 
         private int stepsTraveled;
 
         /// <summary>
@@ -19,14 +19,24 @@
         public bool ShouldGoLeft { get; private set; }
 
         /// <summary>
+        /// Gets the score of the Enemy
+        /// </summary>
+        /// <value>
+        /// The score.
+        /// </value>
+        public int Score { get; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="EnemyShip"/> class.
         /// </summary>
         /// <param name="speedX">The speed x.</param>
         /// <param name="speedY">The speed y.</param>
-        protected EnemyShip(int speedX, int speedY)
+        /// <param name="score">The score</param>
+        protected EnemyShip(int speedX, int speedY, int score)
         {
             this.stepsTraveled = 0;
             this.SetSpeed(speedX, speedY);
+            this.Score = score;
         }
 
         /// <summary>
@@ -37,8 +47,8 @@
         public override void MoveLeft()
         {
             base.MoveLeft();
-            this.stepsTraveled -= 1;
-            if (this.stepsTraveled <= -10)
+            this.stepsTraveled--;
+            if (this.stepsTraveled <= -MaxStep)
             {
                 this.ShouldGoLeft = false;
             }
@@ -53,12 +63,27 @@
         public override void MoveRight()
         {
             base.MoveRight();
-            this.stepsTraveled += 1;
-            if (this.stepsTraveled >= 20)
+            this.stepsTraveled++;
+            if (this.stepsTraveled > MaxStep)
             {
                 this.ShouldGoLeft = true;
             }
 
+        }
+
+        /// <summary>
+        /// Moves this Enemy;
+        /// </summary>
+        public void Move()
+        {
+            if (this.ShouldGoLeft)
+            {
+                this.MoveLeft();
+            }
+            else
+            {
+                this.MoveRight();
+            }
         }
     }
 }

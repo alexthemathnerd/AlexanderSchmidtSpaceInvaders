@@ -1,4 +1,5 @@
 ﻿using SpaceInvaders.View.Sprites;
+using System;
 
 namespace SpaceInvaders.Model
 {
@@ -27,6 +28,5 @@ namespace SpaceInvaders.Model
         }
 
         #endregion
-
     }
 }

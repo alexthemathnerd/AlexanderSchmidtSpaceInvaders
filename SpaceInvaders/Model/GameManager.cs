@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
 using SpaceInvaders.Model.Enemies;
 
@@ -12,56 +15,39 @@ namespace SpaceInvaders.Model
     {
         #region Data members
 
-        private const double PlayerShipBottomOffset = 30;
-        private readonly double backgroundHeight;
-        private readonly double backgroundWidth;
-
-        private PlayerShip playerShip;
-        private Bullet playerBullet;
+        private PlayerManager playerManager;
+        private EnemyManager enemyManager;
+        private readonly Canvas canvas;
+        private int score;
 
         /// <summary>
-        /// Gets the score.
+        /// Occurs when [game over event].
         /// </summary>
-        /// <value>
-        /// The score.
-        /// </value>
-        public int Score { get; private set; }
+        public event EventHandler GameOverEvent;
 
         /// <summary>
-        /// Gets a value indicating whether this instance is game over.
+        /// Occurs when [game win event].
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if this instance is game over; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsGameOver { get; private set; }
+        public event EventHandler GameWinEvent;
+
+        /// <summary>
+        /// Occurs when [score update event].
+        /// </summary>
+        public event EventHandler<ScoreUpdateArgs> ScoreUpdateEvent;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="GameManager" /> class.
-        ///     Precondition: backgroundHeight > 0 AND backgroundWidth > 0
+        /// Initializes a new instance of the <see cref="GameManager" /> class.
+        /// Precondition: backgroundHeight &gt; 0 AND backgroundWidth &gt; 0
         /// </summary>
-        /// <param name="backgroundHeight">The backgroundHeight of the game play window.</param>
-        /// <param name="backgroundWidth">The backgroundWidth of the game play window.</param>
-        public GameManager(double backgroundHeight, double backgroundWidth)
+        /// <param name="canvas">The canvas.</param>
+        public GameManager(Canvas canvas)
         {
-            if (backgroundHeight <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(backgroundHeight));
-            }
-
-            if (backgroundWidth <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(backgroundWidth));
-            }
-
-            this.backgroundHeight = backgroundHeight;
-            this.backgroundWidth = backgroundWidth;
-            this.playerBullet = null;
-            this.Score = 0;
-            this.IsGameOver = false;
+            this.canvas = canvas;
+            this.score = 0;
         }
 
         #endregion
@@ -73,122 +59,86 @@ namespace SpaceInvaders.Model
         ///     Precondition: background != null
         ///     Postcondition: Game is initialized and ready for play.
         /// </summary>
-        /// <param name="background">The background canvas.</param>
-        public void InitializeGame(Canvas background)
+        public void InitializeGame()
         {
-            if (background == null)
-            {
-                throw new ArgumentNullException(nameof(background));
-            }
-
-            this.createAndPlacePlayerShip(background);
-        }
-
-        private void createAndPlacePlayerShip(Canvas background)
-        {
-            this.playerShip = new PlayerShip();
-            background.Children.Add(this.playerShip.Sprite);
-
-            this.placePlayerShipNearBottomOfBackgroundCentered();
-        }
-
-        private void placePlayerShipNearBottomOfBackgroundCentered()
-        {
-            this.playerShip.X = this.backgroundWidth / 2 - this.playerShip.Width / 2.0;
-            this.playerShip.Y = this.backgroundHeight - this.playerShip.Height - PlayerShipBottomOffset;
+            this.playerManager = new PlayerManager(this.canvas);
+            this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
+            this.enemyManager = new EnemyManager(this.canvas);
+            this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
         }
 
         /// <summary>
-        /// Shoots the player bullet.
+        /// Called when [tick].
         /// </summary>
-        /// <param name="canvas">The canvas.</param>
-        public void ShootPlayerBullet(Canvas canvas)
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The e.</param>
+        public void OnTick(object sender, object e)
         {
-            if (this.playerBullet == null)
-            {
-                Debug.WriteLine("I Shoot");
-                this.playerBullet = new Bullet(this.playerShip.X + this.playerShip.Width / 2.0, this.playerShip.Y);
-                canvas.Children.Add(this.playerBullet.Sprite);
-            }
+            this.playerManager.MoveBullet();
+            this.enemyManager.MoveEnemies();
+            this.enemyManager.ShootBullets();
+            this.enemyManager.MoveBullets();
+            this.checkCollisions();
         }
 
-        /// <summary>
-        /// Moves the player bullet.
-        /// </summary>
-        /// <param name="enemyManager">The enemy manager.</param>
-        /// <param name="canvas">The canvas.</param>
-        public void MovePlayerBullet(EnemyManager enemyManager, Canvas canvas)
+        private void checkCollisions()
         {
-            if (this.playerBullet != null)
+
+            foreach (var aEnemyBullet in new List<Bullet>(this.enemyManager.Bullets))
             {
-                this.playerBullet.MoveUp();
-                int score;
-                if (enemyManager.CheckAndResolveCollisions(this.playerBullet, canvas, this.Score, out score) || this.playerBullet.Y < 0)
-                {
-                    canvas.Children.Remove(this.playerBullet.Sprite);
-                    this.playerBullet = null;
-                    this.Score = score;
-                }
+                this.playerManager.CheckCollision(aEnemyBullet);
+            }
+            foreach (var aPlayerBullet in new List<Bullet> (this.playerManager.Bullets))
+            {
+                this.enemyManager.CheckCollision(aPlayerBullet);
+            }
+
+            if (!this.enemyManager.HasMoreEnemies)
+            {
+                this.GameWinEvent?.Invoke(this, EventArgs.Empty);
             }
         }
 
         /// <summary>
-        /// Checks and resolve collisions.
+        /// Called when [key down].
         /// </summary>
-        /// <param name="bullet">The bullet.</param>
-        /// <param name="canvas">The canvas.</param>
-        /// <returns>true if a collision occurred</returns>
-        public bool CheckAndResolveCollisions(Bullet bullet, Canvas canvas)
+        /// <param name="sender">The sender.</param>
+        /// <param name="args">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        public void OnKeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            var shouldCollide = checkIndividualCollision(this.playerShip, bullet);
-
-            if (shouldCollide)
+            switch (args.VirtualKey)
             {
-                this.IsGameOver = true;
-                canvas.Children.Remove(this.playerShip.Sprite);
-            }
-            return shouldCollide;
-        }
-
-        private bool checkIndividualCollision(PlayerShip player, Bullet bullet)
-        {
-            var x1 = bullet.X + bullet.Width / 2;
-            var y1 = bullet.Y + bullet.Height / 2;
-            var x2 = player.X + player.Width / 2;
-            var y2 = player.Y + player.Height / 2;
-            var dist = calculateDistance(x1, y1, x2, y2);
-            return dist < (bullet.Width + player.Width) / 2;
-        }
-
-        private double calculateDistance(double x1, double y1, double x2, double y2)
-        {
-            return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
-        }
-
-        /// <summary>
-        ///     Moves the player ship to the left.
-        ///     Precondition: none
-        ///     Postcondition: The player ship has moved left.
-        /// </summary>
-        public void MovePlayerShipLeft()
-        {
-            if (this.playerShip.X >= 0)
-            {
-                this.playerShip.MoveLeft();
+                case VirtualKey.Left:
+                    this.playerManager.MovePlayer(Direction.Left);
+                    break;
+                case VirtualKey.Right:
+                    this.playerManager.MovePlayer(Direction.Right);
+                    break;
+                case VirtualKey.Space:
+                    this.playerManager.ShotBullet();
+                    break;
             }
         }
 
-        /// <summary>
-        ///     Moves the player ship to the right.
-        ///     Precondition: none
-        ///     Postcondition: The player ship has moved right.
-        /// </summary>
-        public void MovePlayerShipRight()
+        private void onEnemyCollision(object sender, CollisionEventArgs e)
         {
-            if (this.playerShip.X <= this.backgroundWidth - this.playerShip.Width)
-            {
-                this.playerShip.MoveRight();
-            }
+            EnemyShip ship = (EnemyShip)sender;
+            this.canvas.Children.Remove(ship.Sprite);
+            this.canvas.Children.Remove(e.Bullet.Sprite);
+            this.playerManager.Bullets.Remove(e.Bullet);
+            this.playerManager.PlayerBullet = null;
+            this.score += ship.Score;
+            this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.score));
+        }
+
+
+        private void onPlayerCollision(object sender, CollisionEventArgs e)
+        {
+            PlayerShip ship = (PlayerShip)sender;
+            this.canvas.Children.Remove(e.Bullet.Sprite);
+            this.canvas.Children.Remove(ship.Sprite);
+            this.enemyManager.Bullets.Remove(e.Bullet);
+            this.GameOverEvent?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion

@@ -1,0 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SpaceInvaders.Model
+{
+    /// <summary>
+    /// Handles defining something that can shot a bullet
+    /// </summary>
+    interface IShoot
+    {
+        /// <summary>
+        /// Creates a Bullet
+        /// </summary>
+        /// <returns>the bullet created</returns>
+        Bullet Shoot();
+
+    }
+}

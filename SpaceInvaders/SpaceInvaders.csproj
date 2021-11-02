@@ -120,13 +120,19 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Bullet.cs" />
+    <Compile Include="Model\CollissionEventArgs.cs" />
+    <Compile Include="Model\Direction.cs" />
+    <Compile Include="Model\DistanceCalculator.cs" />
     <Compile Include="Model\Enemies\AlienShip.cs" />
     <Compile Include="Model\Enemies\MotherShip.cs" />
     <Compile Include="Model\Enemies\EnemyManager.cs" />
     <Compile Include="Model\Enemies\EnemyShip.cs" />
     <Compile Include="Model\GameManager.cs" />
     <Compile Include="Model\GameObject.cs" />
+    <Compile Include="Model\IShoot.cs" />
+    <Compile Include="Model\PlayerManager.cs" />
     <Compile Include="Model\PlayerShip.cs" />
+    <Compile Include="Model\ScoreUpdateArgs.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

@@ -29,7 +29,8 @@ namespace SpaceInvaders.Model.Enemies
         /// </summary>
         /// <param name="color">The color.</param>
         /// <param name="isAdvance">if set to <c>true</c> [is advance].</param>
-        public AlienShip(Color color, bool isAdvance) : base(4, 0)
+        /// <param name="score">The score</param>
+        public AlienShip(Color color, bool isAdvance, int score) : base(4, 0, score)
         {
             Sprite = new AlienShipSprite(color);
             this.IsAdvance = isAdvance;

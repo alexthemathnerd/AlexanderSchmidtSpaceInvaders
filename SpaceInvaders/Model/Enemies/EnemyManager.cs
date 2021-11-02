@@ -1,206 +1,188 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
 {
-
     /// <summary>
-    /// Handles Enemies
+    ///     Handles Enemies
     /// </summary>
     public class EnemyManager
     {
+        #region Data members
 
         private const int AlienShipCount = 4;
         private const int MotherShipCount = 4;
         private const int EnemyGap = 25;
+        private const int EnemyWidth = 64;
 
         private readonly IList<EnemyShip> enemies;
-        private readonly double backgroundHeight;
-        private readonly double backgroundWidth;
+        private readonly Canvas canvas;
+
+        #endregion
+
+        #region Properties
 
         /// <summary>
-        /// Gets a value indicating whether this instance has more enemies.
+        ///     Gets a value indicating whether this instance has more enemies.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance has more enemies; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance has more enemies; otherwise, <c>false</c>.
         /// </value>
         public bool HasMoreEnemies => this.enemies.Count != 0;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnemyManager"/> class.
+        /// The bullets in play.
         /// </summary>
-        /// <param name="backgroundHeight">Height of the background.</param>
-        /// <param name="backgroundWidth">Width of the background.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// backgroundHeight less than or equal to 0
-        /// or
-        /// backgroundWidth less than or equal to 0
-        /// </exception>
-        public EnemyManager(double backgroundHeight, double backgroundWidth)
-        {
-            if (backgroundHeight <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(backgroundHeight));
-            }
-
-            if (backgroundWidth <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(backgroundWidth));
-            }
-
-            this.backgroundHeight = backgroundHeight;
-            this.backgroundWidth = backgroundWidth;
-            this.enemies = new List<EnemyShip>();
-        }
+        public List<Bullet> Bullets { get; }
 
         /// <summary>
-        /// Initializes the enemies.
+        /// Occurs when [player bullet collide event].
         /// </summary>
-        /// <param name="background">The background.</param>
-        public void InitializeEnemies(Canvas background)
+        public event EventHandler<CollisionEventArgs> PlayerBulletCollideEvent;
+
+        #endregion
+
+        #region Constructors
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="EnemyManager" /> class.
+        /// </summary>
+        /// <param name="canvas">the canvas the enemies will be drawn on</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        ///     backgroundHeight less than or equal to 0
+        ///     or
+        ///     backgroundWidth less than or equal to 0
+        /// </exception>
+        public EnemyManager(Canvas canvas)
         {
-            this.createAndPlaceAlienShips(background, EnemyGap, Color.FromArgb(255, 0, 255, 0), false);
-            this.createAndPlaceAlienShips(background, EnemyGap + 64, Color.FromArgb(255, 0, 255,255), true);
-            this.createAndPlaceMotherShips(background,EnemyGap * 3 + 64 * 2);
+            this.canvas = canvas;
+            this.enemies = new List<EnemyShip>();
+            this.Bullets = new List<Bullet>();
+            this.initializeEnemies(canvas);
         }
 
-        private void createAndPlaceAlienShips(Canvas background, int yPos, Color color, bool isAdvance)
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        ///     Initializes the enemies.
+        /// </summary>
+        /// <param name="background">The background.</param>
+        private void initializeEnemies(Canvas background)
         {
-            int prevX = (int) ((this.backgroundWidth - (64 * AlienShipCount + EnemyGap * (AlienShipCount - 1))) / 2);
-            for (int i = 0; i < AlienShipCount; i++)
+            this.createAndPlaceMotherShips(background, EnemyGap);
+            this.createAndPlaceAlienShips(background, EnemyGap + EnemyWidth, Color.FromArgb(255, 0, 255, 255), true, 2);
+            this.createAndPlaceAlienShips(background, EnemyGap * 3 + EnemyWidth * 2, Color.FromArgb(255, 0, 255, 0),
+                false, 1);
+        }
+
+        private void createAndPlaceAlienShips(Canvas background, int yPos, Color color, bool isAdvance, int score)
+        {
+            var prevX = (int)((this.canvas.Width - (EnemyWidth * AlienShipCount + EnemyGap * (AlienShipCount - 1))) /
+                              2);
+            for (var i = 0; i < AlienShipCount; i++)
             {
-                EnemyShip enemy = new AlienShip(color, isAdvance);
+                EnemyShip enemy = new AlienShip(color, isAdvance, score);
                 this.enemies.Add(enemy);
                 background.Children.Add(enemy.Sprite);
                 enemy.X = prevX;
                 enemy.Y = yPos;
-                prevX += 64 + EnemyGap;
+                prevX += EnemyWidth + EnemyGap;
             }
         }
 
         private void createAndPlaceMotherShips(Canvas background, int yPos)
         {
-            int prevX = (int)((this.backgroundWidth - (64 * MotherShipCount + EnemyGap * (MotherShipCount - 1))) / 2);
-            for (int i = 0; i < MotherShipCount; i++)
+            var prevX = (int)((this.canvas.Width - (EnemyWidth * MotherShipCount + EnemyGap * (MotherShipCount - 1))) /
+                              2);
+            for (var i = 0; i < MotherShipCount; i++)
             {
                 EnemyShip enemy = new MotherShip();
                 this.enemies.Add(enemy);
                 background.Children.Add(enemy.Sprite);
                 enemy.X = prevX;
                 enemy.Y = yPos;
-                prevX += 64 + EnemyGap;
+                prevX += EnemyWidth + EnemyGap;
             }
         }
 
         /// <summary>
-        /// Moves the enemies.
+        ///     Moves the enemies.
         /// </summary>
         public void MoveEnemies()
         {
             foreach (var aEnemy in this.enemies)
             {
-                if (aEnemy.ShouldGoLeft)
-                {
-                    aEnemy.MoveLeft();
-                }
-                else
-                {
-                    aEnemy.MoveRight();
-                }
+                aEnemy.Move();
             }
         }
 
         /// <summary>
-        /// Moves the mother ships shots.
+        ///     Shoots the bullets of the enemies
+        ///     Precondition: none
+        ///     Postcondition: a bullet was shot or not. It is random.
         /// </summary>
-        /// <param name="gameManager">The game manager.</param>
-        /// <param name="canvas">The canvas.</param>
-        public void MoveMotherShipsShots(GameManager gameManager, Canvas canvas)
+        public void ShootBullets()
         {
             foreach (var aEnemy in this.enemies)
             {
-                if (aEnemy is MotherShip ship)
+                if (aEnemy is IShoot iShootEnemy)
                 {
-                    ship.MoveShots(gameManager, canvas);
+                    var bullet = iShootEnemy.Shoot();
+                    if (bullet != null)
+                    {
+                        this.Bullets.Add(bullet);
+                        this.canvas.Children.Add(bullet.Sprite);
+                    }
                 }
             }
         }
 
         /// <summary>
-        /// Checks and resolve collisions.
+        ///     Move the the bullets
+        ///     Precondition: none
+        ///     Postcondition: all bullets move down
         /// </summary>
-        /// <param name="bullet">The bullet.</param>
-        /// <param name="canvas">The canvas.</param>
-        /// <param name="prevScore">The previous score.</param>
-        /// <param name="score">The score.</param>
-        /// <returns>true if a collision occurred</returns>
-        public bool CheckAndResolveCollisions(Bullet bullet, Canvas canvas, int prevScore, out int score)
+        public void MoveBullets()
         {
-            try
+            foreach (var aBullet in this.Bullets)
             {
-                var collidedShip = this.enemies.First((enemy) => checkIndividualCollision(enemy, bullet));
-                if (collidedShip is MotherShip motherShip)
-                {
-                    motherShip.DestroyBullet(canvas);
-                    score = prevScore + 3;
-                } else if (collidedShip is AlienShip alienShip)
-                {
-                    if (!alienShip.IsAdvance)
-                    {
-                        score = prevScore + 2;
-                    }
-                    else
-                    {
-                        score = prevScore + 1;
-                    }
-                    
-                }
-                else
-                {
-                    score = prevScore;
-                }
-                this.enemies.Remove(collidedShip);
-                canvas.Children.Remove(collidedShip.Sprite);
-                return true;
-            }
-            catch (InvalidOperationException)
-            {
-                score = prevScore;
-                return false;
+                aBullet.MoveDown();
             }
         }
 
         /// <summary>
-        /// Makes the mother ships shoot.
+        /// Checks if the given bullet collides and raises a collision event.
         /// </summary>
-        /// <param name="canvas">The canvas.</param>
-        public void MakeMotherShipsShoot(Canvas canvas)
+        /// <param name="bullet">the bullet to check collision with enemies</param>
+        public void CheckCollision(Bullet bullet)
         {
-            foreach (var aShip in this.enemies)
+            EnemyShip shipToRemove = null;
+            foreach (var aEnemy in this.enemies)
             {
-                if (aShip is MotherShip ship)
+                var x1 = bullet.X + bullet.Width / 2;
+                var y1 = bullet.Y + bullet.Height / 2;
+                var x2 = aEnemy.X + aEnemy.Width / 2;
+                var y2 = aEnemy.Y + aEnemy.Height / 2;
+                var distance = DistanceCalculator.CalculateDistance(x1, y1, x2, y2);
+                if (distance < (bullet.Width + aEnemy.Width) / 2)
                 {
-                    ship.Shoot(canvas);
+                    shipToRemove = aEnemy;
+                    this.PlayerBulletCollideEvent?.Invoke(aEnemy, new CollisionEventArgs(bullet));
+                    break;
                 }
             }
-        }
-        
-        private bool checkIndividualCollision(EnemyShip enemy, Bullet bullet)
-        {
-            var x1 = bullet.X + bullet.Width / 2;
-            var y1 = bullet.Y + bullet.Height / 2;
-            var x2 = enemy.X + enemy.Width / 2;
-            var y2 = enemy.Y + enemy.Height / 2;
-            var dist = calculateDistance(x1, y1, x2, y2);
-            return dist < (bullet.Width + enemy.Width)/ 2 ;
+
+            if (shipToRemove != null)
+            {
+                this.enemies.Remove(shipToRemove);
+                this.Bullets.Remove(bullet);
+            }
         }
 
-        private double calculateDistance(double x1, double y1, double x2, double y2)
-        {
-            return Math.Sqrt(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2));
-        }
+        #endregion
     }
 }

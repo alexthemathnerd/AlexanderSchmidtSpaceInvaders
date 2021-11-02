@@ -27,7 +27,6 @@ namespace SpaceInvaders.View
         public const double ApplicationWidth = 640;
 
         private readonly GameManager gameManager;
-        private readonly EnemyManager enemyManager;
         private readonly DispatcherTimer timer;
 
         /// <summary>
@@ -41,52 +40,38 @@ namespace SpaceInvaders.View
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
-            Window.Current.CoreWindow.KeyDown += this.coreWindowOnKeyDown;
+            this.gameManager = new GameManager(this.theCanvas);
+            this.gameManager.ScoreUpdateEvent += this.onScoreUpdate;
+            this.gameManager.GameOverEvent += this.onGameOver;
+            this.gameManager.GameWinEvent += this.onGameWin;
+            this.gameManager.InitializeGame();
+            this.scoreSummary.Text = "Score: 0";
 
-            this.gameManager = new GameManager(ApplicationHeight, ApplicationWidth);
-            this.gameManager.InitializeGame(this.theCanvas);
-            this.enemyManager = new EnemyManager(ApplicationHeight, ApplicationWidth);
-            this.enemyManager.InitializeEnemies(this.theCanvas);
-
+            Window.Current.CoreWindow.KeyDown += this.gameManager.OnKeyDown;
             this.timer =  new DispatcherTimer();
-            this.timer.Tick += this.update_Tick;
+            this.timer.Tick += this.gameManager.OnTick;
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             this.timer.Start();
 
         }
 
-        private void coreWindowOnKeyDown(CoreWindow sender, KeyEventArgs args)
+        private void onGameWin(object sender, EventArgs e)
         {
-            switch (args.VirtualKey)
-            {
-                case VirtualKey.Left:
-                    this.gameManager.MovePlayerShipLeft();
-                    break;
-                case VirtualKey.Right:
-                    this.gameManager.MovePlayerShipRight();
-                    break;
-                case VirtualKey.Space:
-                    this.gameManager.ShootPlayerBullet(this.theCanvas);
-                    break;
-            }
+            this.timer.Stop();
+            this.scoreSummary.Text = "Game Over. You Win!";
         }
 
-        private void update_Tick(object sender, object e)
+        private void onGameOver(object sender, EventArgs e)
         {
-            this.gameManager.MovePlayerBullet(this.enemyManager, this.theCanvas);
-            this.scoreSummary.Text = $"Score: {this.gameManager.Score}";
-            this.enemyManager.MoveEnemies();
-            this.enemyManager.MakeMotherShipsShoot(this.theCanvas);
-            this.enemyManager.MoveMotherShipsShots(this.gameManager, this.theCanvas);
-            if (!this.enemyManager.HasMoreEnemies)
-            {
-                this.timer.Stop();
-                this.scoreSummary.Text = "Game Over. You Win!";
-            } else if (this.gameManager.IsGameOver)
-            {
-                this.timer.Stop();
-                this.scoreSummary.Text = $"Game Over. You Lose! Your Score Was: {this.gameManager.Score}";
-            }
+            this.timer.Stop();
+            this.scoreSummary.Text = $"Game Over. You Lose!";
         }
+
+        private void onScoreUpdate(object sender, ScoreUpdateArgs e)
+        {
+            this.scoreSummary.Text = $"Score: {e.NewScore}";
+        }
+
+
     }
 }
