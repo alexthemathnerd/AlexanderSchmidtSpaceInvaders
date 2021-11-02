@@ -9,16 +9,18 @@ namespace SpaceInvaders.Model.Enemies
     /// Represents the Mother Ship 
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
-    class MotherShip : EnemyShip, IShoot
+    public class MotherShip : EnemyShip, IShoot
     {
 
-        private const double ChanceToShoot = 0.1;
+        private const double ChanceToShoot = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MotherShip"/> class.
         /// </summary>
-        public MotherShip() : base(5, 0, 3)
+        /// <param name="score">the score of the mother ship</param>
+        public MotherShip() : base(5, 0)
         {
+            this.Score = 5;
             this.Sprite = new MotherShipSprite();
         }
 
@@ -28,7 +30,7 @@ namespace SpaceInvaders.Model.Enemies
         public Bullet Shoot()
         {
             Random rand = new Random();
-            int doShoot = rand.Next(0, 100);
+            int doShoot = rand.Next(100);
             if (doShoot < ChanceToShoot)
             { 
                 return new Bullet(this);

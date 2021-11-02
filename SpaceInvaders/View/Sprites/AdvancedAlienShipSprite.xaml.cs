@@ -10,7 +10,7 @@ namespace SpaceInvaders.View.Sprites
     ///     Draws a player ship.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.UserControl" />
-    public sealed partial class AlienShipSprite
+    public sealed partial class AdvancedAlienShipSprite
     {
         #region Constructors
 
@@ -19,7 +19,7 @@ namespace SpaceInvaders.View.Sprites
         ///     Precondition: none
         ///     Postcondition: Sprite created.
         /// </summary>
-        public AlienShipSprite()
+        public AdvancedAlienShipSprite()
         {
             this.InitializeComponent();
         }

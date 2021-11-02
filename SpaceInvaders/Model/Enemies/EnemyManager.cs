@@ -12,12 +12,14 @@ namespace SpaceInvaders.Model.Enemies
     {
         #region Data members
 
-        private const int AlienShipCount = 4;
+        private const int AlienShipCount = 8;
+        private const int AdvancedAlienShipCount = 6;
         private const int MotherShipCount = 4;
-        private const int EnemyGap = 25;
-        private const int EnemyWidth = 64;
+        private const int PlanetShipCount = 2;
 
-        private readonly IList<EnemyShip> enemies;
+        private const int EnemiesBulletCap = 3;
+
+        private readonly List<EnemyShip> enemies;
         private readonly Canvas canvas;
 
         #endregion
@@ -73,40 +75,10 @@ namespace SpaceInvaders.Model.Enemies
         /// <param name="background">The background.</param>
         private void initializeEnemies(Canvas background)
         {
-            this.createAndPlaceMotherShips(background, EnemyGap);
-            this.createAndPlaceAlienShips(background, EnemyGap + EnemyWidth, Color.FromArgb(255, 0, 255, 255), true, 2);
-            this.createAndPlaceAlienShips(background, EnemyGap * 3 + EnemyWidth * 2, Color.FromArgb(255, 0, 255, 0),
-                false, 1);
-        }
-
-        private void createAndPlaceAlienShips(Canvas background, int yPos, Color color, bool isAdvance, int score)
-        {
-            var prevX = (int)((this.canvas.Width - (EnemyWidth * AlienShipCount + EnemyGap * (AlienShipCount - 1))) /
-                              2);
-            for (var i = 0; i < AlienShipCount; i++)
-            {
-                EnemyShip enemy = new AlienShip(color, isAdvance, score);
-                this.enemies.Add(enemy);
-                background.Children.Add(enemy.Sprite);
-                enemy.X = prevX;
-                enemy.Y = yPos;
-                prevX += EnemyWidth + EnemyGap;
-            }
-        }
-
-        private void createAndPlaceMotherShips(Canvas background, int yPos)
-        {
-            var prevX = (int)((this.canvas.Width - (EnemyWidth * MotherShipCount + EnemyGap * (MotherShipCount - 1))) /
-                              2);
-            for (var i = 0; i < MotherShipCount; i++)
-            {
-                EnemyShip enemy = new MotherShip();
-                this.enemies.Add(enemy);
-                background.Children.Add(enemy.Sprite);
-                enemy.X = prevX;
-                enemy.Y = yPos;
-                prevX += EnemyWidth + EnemyGap;
-            }
+            EnemyBuilder.BuildRow<PlanetShip>(background, PlanetShipCount, 1, this.enemies);
+            EnemyBuilder.BuildRow<MotherShip>(background, MotherShipCount, 2, this.enemies);
+            EnemyBuilder.BuildRow<AdvancedAlienShip>(background, AdvancedAlienShipCount, 3, this.enemies);
+            EnemyBuilder.BuildRow<AlienShip>(background, AlienShipCount, 4, this.enemies);
         }
 
         /// <summary>
@@ -129,7 +101,7 @@ namespace SpaceInvaders.Model.Enemies
         {
             foreach (var aEnemy in this.enemies)
             {
-                if (aEnemy is IShoot iShootEnemy)
+                if (aEnemy is IShoot iShootEnemy && this.Bullets.Count < EnemiesBulletCap)
                 {
                     var bullet = iShootEnemy.Shoot();
                     if (bullet != null)
@@ -148,9 +120,14 @@ namespace SpaceInvaders.Model.Enemies
         /// </summary>
         public void MoveBullets()
         {
-            foreach (var aBullet in this.Bullets)
+            foreach (var aBullet in new List<Bullet>(this.Bullets))
             {
                 aBullet.MoveDown();
+                if (aBullet.Y > this.canvas.Height)
+                {
+                    this.canvas.Children.Remove(aBullet.Sprite);
+                    this.Bullets.Remove(aBullet);
+                }
             }
         }
 
@@ -179,7 +156,6 @@ namespace SpaceInvaders.Model.Enemies
             if (shipToRemove != null)
             {
                 this.enemies.Remove(shipToRemove);
-                this.Bullets.Remove(bullet);
             }
         }
 

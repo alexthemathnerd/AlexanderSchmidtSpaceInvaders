@@ -123,10 +123,13 @@
     <Compile Include="Model\CollissionEventArgs.cs" />
     <Compile Include="Model\Direction.cs" />
     <Compile Include="Model\DistanceCalculator.cs" />
+    <Compile Include="Model\Enemies\AdvancedAlienShip.cs" />
     <Compile Include="Model\Enemies\AlienShip.cs" />
+    <Compile Include="Model\Enemies\EnemyBuilder.cs" />
     <Compile Include="Model\Enemies\MotherShip.cs" />
     <Compile Include="Model\Enemies\EnemyManager.cs" />
     <Compile Include="Model\Enemies\EnemyShip.cs" />
+    <Compile Include="Model\Enemies\PlanetShip.cs" />
     <Compile Include="Model\GameManager.cs" />
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\IShoot.cs" />
@@ -137,6 +140,9 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\Sprites\AdvancedAlienShipSprite.xaml.cs">
+      <DependentUpon>AdvancedAlienShipSprite.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Sprites\BaseSprite.xaml.cs">
       <DependentUpon>BaseSprite.xaml</DependentUpon>
     </Compile>
@@ -144,14 +150,17 @@
     <Compile Include="View\Sprites\BulletSprite.xaml.cs">
       <DependentUpon>BulletSprite.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Sprites\PlanetShipSprite.xaml.cs">
+      <DependentUpon>PlanetShipSprite.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Sprites\MotherShipSprite.xaml.cs">
+      <DependentUpon>MotherShipSprite.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Sprites\PlayerShipSprite.xaml.cs">
       <DependentUpon>PlayerShipSprite.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Sprites\AlienShipSprite.xaml.cs">
       <DependentUpon>AlienShipSprite.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Sprites\MotherShipSprite.xaml.cs">
-      <DependentUpon>MotherShipSprite.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -178,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Sprites\AdvancedAlienShipSprite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\Sprites\BaseSprite.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -186,6 +199,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="View\Sprites\PlanetShipSprite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sprites\MotherShipSprite.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Sprites\PlayerShipSprite.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -193,10 +214,6 @@
     <Page Include="View\Sprites\AlienShipSprite.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="View\Sprites\MotherShipSprite.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

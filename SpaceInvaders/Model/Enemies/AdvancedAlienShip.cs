@@ -8,7 +8,7 @@ namespace SpaceInvaders.Model.Enemies
     /// Represents a Alien Ship
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
-    public class AlienShip : EnemyShip
+    public class AdvancedAlienShip : AlienShip
     {
 
         #region Constructors
@@ -16,10 +16,10 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// Initializes a new instance of the <see cref="AlienShip"/> class.
         /// </summary>
-        public AlienShip() : base(4, 0)
+        public AdvancedAlienShip()
         {
-            this.Score = 1;
-            this.Sprite = new AlienShipSprite();
+            this.Score = 2;
+            this.Sprite = new AdvancedAlienShipSprite();
         }
 
         #endregion

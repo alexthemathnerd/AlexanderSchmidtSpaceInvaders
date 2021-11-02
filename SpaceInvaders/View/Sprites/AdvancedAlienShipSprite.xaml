@@ -1,5 +1,5 @@
 ﻿<local:BaseSprite
-    x:Class="SpaceInvaders.View.Sprites.AlienShipSprite"
+    x:Class="SpaceInvaders.View.Sprites.AdvancedAlienShipSprite"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SpaceInvaders.View.Sprites"
@@ -12,7 +12,7 @@
     Width="64">
 
     <UserControl.Resources>
-        <SolidColorBrush x:Key="EnemyShipColor" Color="GreenYellow"/>
+        <SolidColorBrush x:Key="EnemyShipColor" Color="Orange"/>
     </UserControl.Resources>
 
     <Canvas>
@@ -20,6 +20,8 @@
         <Ellipse Width="32" Height="32" Fill="Crimson" Canvas.Left="16" Canvas.Top="16"/>
         <Polygon Points="0,10 32,40 64,10" Fill="Crimson" Height="64" Width="64"/>
         <Ellipse Width="16" Height="16" Fill="{StaticResource EnemyShipColor}" Canvas.Left="24" Canvas.Top="24"/>
-        
+        <Rectangle Width="4" Height="22" Fill="Crimson" Canvas.Left="7" Canvas.Top="10"/>
+        <Rectangle Width="4" Height="22" Fill="Crimson" Canvas.Left="53" Canvas.Top="10"/>
+
     </Canvas>
 </local:BaseSprite>

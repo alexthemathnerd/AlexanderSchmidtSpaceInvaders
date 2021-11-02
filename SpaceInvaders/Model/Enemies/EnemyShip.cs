@@ -24,7 +24,7 @@
         /// <value>
         /// The score.
         /// </value>
-        public int Score { get; }
+        public int Score { get; internal set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EnemyShip"/> class.
@@ -32,11 +32,10 @@
         /// <param name="speedX">The speed x.</param>
         /// <param name="speedY">The speed y.</param>
         /// <param name="score">The score</param>
-        protected EnemyShip(int speedX, int speedY, int score)
+        protected EnemyShip(int speedX, int speedY)
         {
             this.stepsTraveled = 0;
             this.SetSpeed(speedX, speedY);
-            this.Score = score;
         }
 
         /// <summary>
