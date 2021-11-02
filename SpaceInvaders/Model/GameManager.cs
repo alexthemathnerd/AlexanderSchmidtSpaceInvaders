@@ -76,6 +76,7 @@ namespace SpaceInvaders.Model
         {
             this.playerManager.MoveBullet();
             this.enemyManager.MoveEnemies();
+            this.enemyManager.AnimateEnemies();
             this.enemyManager.ShootBullets();
             this.enemyManager.MoveBullets();
             this.checkCollisions();

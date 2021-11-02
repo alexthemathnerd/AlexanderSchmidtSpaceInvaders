@@ -9,9 +9,12 @@ namespace SpaceInvaders.Model.Enemies
     /// Represents the Mother Ship 
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
-    public class MotherShip : EnemyShip, IShoot
+    public class MotherShip : EnemyShip, IShoot, IAnimate
     {
 
+        private const int ExtendCap = 10;
+        private int extendCount;
+        private bool shouldExtend;
         private const double ChanceToShoot = 1;
 
         /// <summary>
@@ -22,6 +25,8 @@ namespace SpaceInvaders.Model.Enemies
         {
             this.Score = 5;
             this.Sprite = new MotherShipSprite();
+            this.shouldExtend = true;
+            this.extendCount = 0;
         }
 
         /// <summary>
@@ -37,6 +42,31 @@ namespace SpaceInvaders.Model.Enemies
             }
 
             return null;
+        }
+
+        public virtual void ChangeState()
+        {
+            var ship = (MotherShipSprite)this.Sprite;
+            if (this.shouldExtend)
+            {
+                ship.MoveOut();
+                this.extendCount++;
+            }
+            else
+            {
+                ship.MoveIn();
+                this.extendCount--;
+            }
+
+            if (this.extendCount == ExtendCap)
+            {
+                this.shouldExtend = false;
+            }
+
+            if (this.extendCount == 0)
+            {
+                this.shouldExtend= true;
+            }
         }
     }
 }

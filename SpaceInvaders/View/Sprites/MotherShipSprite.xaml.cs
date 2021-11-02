@@ -1,6 +1,8 @@
 ﻿
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
+using System.Numerics;
+
 namespace SpaceInvaders.View.Sprites
 {
     /// <summary>
@@ -22,6 +24,19 @@ namespace SpaceInvaders.View.Sprites
         }
 
         #endregion
-        
+
+
+        public void MoveIn()
+        {
+            this.leftBarrel.Translation -= new Vector3(0, 1, 0);
+            this.rightBarrel.Translation -= new Vector3(0, 1, 0);
+        }
+
+        public void MoveOut()
+        {
+            this.leftBarrel.Translation += new Vector3(0, 1, 0);
+            this.rightBarrel.Translation += new Vector3(0, 1, 0);
+        }
     }
+
 }

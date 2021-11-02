@@ -12,6 +12,9 @@ namespace SpaceInvaders.View.Sprites
     /// <seealso cref="Windows.UI.Xaml.Controls.UserControl" />
     public sealed partial class AdvancedAlienShipSprite
     {
+
+        private const int AngleChange = 2;
+
         #region Constructors
 
         /// <summary>
@@ -25,6 +28,18 @@ namespace SpaceInvaders.View.Sprites
         }
 
         #endregion
-        
+
+        public void MoveOut()
+        {
+            this.leftArm.Rotation += AngleChange;
+            this.rightArm.Rotation -= AngleChange;
+        }
+
+        public void MoveIn()
+        {
+            this.leftArm.Rotation -= AngleChange;
+            this.rightArm.Rotation += AngleChange;
+        }
+
     }
 }

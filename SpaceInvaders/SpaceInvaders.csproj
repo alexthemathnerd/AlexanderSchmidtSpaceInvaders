@@ -126,6 +126,7 @@
     <Compile Include="Model\Enemies\AdvancedAlienShip.cs" />
     <Compile Include="Model\Enemies\AlienShip.cs" />
     <Compile Include="Model\Enemies\EnemyBuilder.cs" />
+    <Compile Include="Model\Enemies\IAnimate.cs" />
     <Compile Include="Model\Enemies\MotherShip.cs" />
     <Compile Include="Model\Enemies\EnemyManager.cs" />
     <Compile Include="Model\Enemies\EnemyShip.cs" />

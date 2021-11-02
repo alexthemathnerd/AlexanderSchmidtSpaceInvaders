@@ -16,12 +16,12 @@
     </UserControl.Resources>
 
     <Canvas RenderTransformOrigin="0.5,0.5">
-        <local:MotherShipSprite Canvas.Top="5" Loaded="MotherShipSprite_Loaded"/>
+        <local:MotherShipSprite x:Name ="mother" Canvas.Top="5" Loaded="MotherShipSprite_Loaded"/>
         <Ellipse Width="30" Height="30" Canvas.Top="7" Canvas.Left="17" Fill="{StaticResource EnemyShipColor}"/>
         <Rectangle Width="10" Height="5" Canvas.Left="10" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
         <Rectangle Width="10" Height="5" Canvas.Left="44" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
-        <Rectangle Width="5" Height="25" Canvas.Left="49" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
-        <Rectangle Width="5" Height="25" Canvas.Left="10" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
+        <Rectangle x:Name="rightArm"  Width="5" Height="25" Canvas.Left="49" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
+        <Rectangle x:Name="leftArm" Width="5" Height="25" Canvas.Left="10" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
         <Ellipse Width="20" Height="20" Canvas.Top="12" Canvas.Left="22" Fill="Green"/>
     </Canvas>
 </local:BaseSprite>

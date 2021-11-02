@@ -113,6 +113,17 @@ namespace SpaceInvaders.Model.Enemies
             }
         }
 
+        public void AnimateEnemies()
+        {
+            foreach (var aEnemy in this.enemies)
+            {
+                if (aEnemy is IAnimate iAnimateEnemy)
+                {
+                    iAnimateEnemy.ChangeState();
+                }
+            }
+        }
+
         /// <summary>
         ///     Move the the bullets
         ///     Precondition: none

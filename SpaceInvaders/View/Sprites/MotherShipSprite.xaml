@@ -34,5 +34,7 @@
         <Rectangle Width="8" Height="22" Fill="{StaticResource EnemyShipColor}" Canvas.Left="18" Canvas.Top="32"/>
         <Rectangle Width="8" Height="22" Fill="{StaticResource EnemyShipColor}"  Canvas.Left="39" Canvas.Top="32"/>
         <Ellipse Width="16" Height="16" Fill="DeepPink" Canvas.Left="24" Canvas.Top="24"/>
+        <Rectangle x:Name="rightBarrel" Width="4" Height="22" Fill="{StaticResource EnemyShipColor}"  Canvas.Left="41" Canvas.Top="32"/>
+        <Rectangle x:Name="leftBarrel" Width="4" Height="22" Fill="{StaticResource EnemyShipColor}"  Canvas.Left="20" Canvas.Top="32"/>
     </Canvas>
 </local:BaseSprite>

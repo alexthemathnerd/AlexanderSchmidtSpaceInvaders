@@ -8,8 +8,12 @@ namespace SpaceInvaders.Model.Enemies
     /// Represents a Alien Ship
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
-    public class AdvancedAlienShip : AlienShip
+    public class AdvancedAlienShip : AlienShip, IAnimate
     {
+
+        private const int TurnCap = 7;
+        private int turnCount;
+        private bool shouldGoOut;
 
         #region Constructors
 
@@ -20,8 +24,37 @@ namespace SpaceInvaders.Model.Enemies
         {
             this.Score = 2;
             this.Sprite = new AdvancedAlienShipSprite();
+            this.turnCount = 0;
+            this.shouldGoOut = false;
         }
 
         #endregion
+
+
+        public void ChangeState()
+        {
+            var ship = (AdvancedAlienShipSprite)this.Sprite;
+            if (this.shouldGoOut)
+            {
+
+                ship.MoveOut();
+                this.turnCount--;
+            }
+            else
+            {
+                ship.MoveIn();
+                this.turnCount++;
+            }
+
+            if (this.turnCount == TurnCap)
+            {
+                this.shouldGoOut = true;
+            }
+
+            if (this.turnCount == 0)
+            {
+                this.shouldGoOut = false;
+            }
+        }
     }
 }
