@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model
@@ -11,17 +12,11 @@ namespace SpaceInvaders.Model
     {
 
         private const double PlayerShipBottomOffset = 30;
+        private const long ShootCooldown = 10;
 
         private Canvas canvas;
         private PlayerShip player;
-
-        /// <summary>
-        /// Gets or sets the player bullet.
-        /// </summary>
-        /// <value>
-        /// The player bullet.
-        /// </value>
-        public Bullet PlayerBullet { get; set; }
+        private long lastShotFired = 0;
 
         /// <summary>
         /// Gets the bullets.
@@ -43,7 +38,6 @@ namespace SpaceInvaders.Model
         public PlayerManager(Canvas canvas)
         {
             this.canvas = canvas;
-            this.PlayerBullet = null;
             this.Bullets = new List<Bullet>();
             this.initialize(canvas);
         }
@@ -79,9 +73,7 @@ namespace SpaceInvaders.Model
             var distance = DistanceCalculator.CalculateDistance(x1, y1, x2, y2);
             if (distance < (bullet.Width + this.player.Width) / 2)
             {
-                this.Bullets.Remove(this.PlayerBullet);
                 this.EnemyBulletCollideEvent?.Invoke(this.player, new CollisionEventArgs(bullet));
-                
             }
         }
 
@@ -90,25 +82,28 @@ namespace SpaceInvaders.Model
         /// </summary>
         public void ShotBullet()
         {
-            if (this.PlayerBullet == null)
+            if (this.Bullets.Count < 3 && DateTime.Now.Ticks - this.lastShotFired > ShootCooldown)
             {
-                this.PlayerBullet = new Bullet(this.player);
-                this.Bullets.Add(this.PlayerBullet);
-                this.canvas.Children.Add(this.PlayerBullet.Sprite);
+                this.lastShotFired = DateTime.Now.Ticks;
+                var bullet = new Bullet(this.player);
+                this.Bullets.Add(bullet);
+                this.canvas.Children.Add(bullet.Sprite);
             }
         }
 
         /// <summary>
         /// Moves the player bullet.
         /// </summary>
-        public void MoveBullet()
+        public void MoveBullets()
         {
-            this.PlayerBullet?.MoveUp();
-            if (this.PlayerBullet?.Y < 0)
+            foreach (var aBullet in new List<Bullet>(this.Bullets))
             {
-                this.Bullets.Remove(this.PlayerBullet);
-                this.canvas.Children.Remove(this.PlayerBullet.Sprite);
-                this.PlayerBullet = null;
+                aBullet.MoveUp();
+                if (aBullet.Y < 0)
+                {
+                    this.Bullets.Remove(aBullet);
+                    this.canvas.Children.Remove(aBullet.Sprite);
+                }
             }
         }
 

@@ -74,7 +74,7 @@ namespace SpaceInvaders.Model
         /// <param name="e">The e.</param>
         public void OnTick(object sender, object e)
         {
-            this.playerManager.MoveBullet();
+            this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
             this.enemyManager.ShootBullets();
@@ -127,7 +127,6 @@ namespace SpaceInvaders.Model
             this.canvas.Children.Remove(ship.Sprite);
             this.canvas.Children.Remove(e.Bullet.Sprite);
             this.playerManager.Bullets.Remove(e.Bullet);
-            this.playerManager.PlayerBullet = null;
             this.score += ship.Score;
             this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.score));
         }
