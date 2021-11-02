@@ -136,9 +136,12 @@ namespace SpaceInvaders.Model
         {
             PlayerShip ship = (PlayerShip)sender;
             this.canvas.Children.Remove(e.Bullet.Sprite);
-            this.canvas.Children.Remove(ship.Sprite);
             this.enemyManager.Bullets.Remove(e.Bullet);
-            this.GameOverEvent?.Invoke(this, EventArgs.Empty);
+            if (this.playerManager.PlayerHealth == 0)
+            {
+                this.canvas.Children.Remove(ship.Sprite);
+                this.GameOverEvent?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         #endregion

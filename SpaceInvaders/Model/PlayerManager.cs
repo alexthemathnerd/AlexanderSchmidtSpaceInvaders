@@ -16,7 +16,8 @@ namespace SpaceInvaders.Model
 
         private Canvas canvas;
         private PlayerShip player;
-        private long lastShotFired = 0;
+        private long lastShotFired;
+        
 
         /// <summary>
         /// Gets the bullets.
@@ -25,6 +26,8 @@ namespace SpaceInvaders.Model
         /// The bullets.
         /// </value>
         public List<Bullet> Bullets { get; private set; }
+
+        public int PlayerHealth { get; private set; }
 
         /// <summary>
         /// Occurs when [enemy bullet collide event].
@@ -39,6 +42,8 @@ namespace SpaceInvaders.Model
         {
             this.canvas = canvas;
             this.Bullets = new List<Bullet>();
+            this.lastShotFired = 0;
+            this.PlayerHealth = 3;
             this.initialize(canvas);
         }
 
@@ -73,6 +78,7 @@ namespace SpaceInvaders.Model
             var distance = DistanceCalculator.CalculateDistance(x1, y1, x2, y2);
             if (distance < (bullet.Width + this.player.Width) / 2)
             {
+                this.PlayerHealth--;
                 this.EnemyBulletCollideEvent?.Invoke(this.player, new CollisionEventArgs(bullet));
             }
         }
