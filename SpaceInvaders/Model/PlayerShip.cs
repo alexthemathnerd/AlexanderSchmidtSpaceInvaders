@@ -1,5 +1,4 @@
 ﻿using SpaceInvaders.View.Sprites;
-using System;
 
 namespace SpaceInvaders.Model
 {

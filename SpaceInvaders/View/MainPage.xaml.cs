@@ -1,21 +1,20 @@
 ﻿using System;
 using Windows.Foundation;
-using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using SpaceInvaders.Model;
-using SpaceInvaders.Model.Enemies;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace SpaceInvaders.View
 {
     /// <summary>
-    /// The main page for the game.
+    ///     The main page for the game.
     /// </summary>
     public sealed partial class MainPage
     {
+        #region Data members
+
         /// <summary>
         ///     The application height
         /// </summary>
@@ -25,12 +24,14 @@ namespace SpaceInvaders.View
         ///     The application width
         /// </summary>
         public const double ApplicationWidth = 640;
-
-        private readonly GameManager gameManager;
         private readonly DispatcherTimer timer;
 
+        #endregion
+
+        #region Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="MainPage"/> class.
+        ///     Initializes a new instance of the <see cref="MainPage" /> class.
         /// </summary>
         public MainPage()
         {
@@ -40,23 +41,26 @@ namespace SpaceInvaders.View
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
-            this.gameManager = new GameManager(this.theCanvas);
-            this.gameManager.ScoreUpdateEvent += this.onScoreUpdate;
-            this.gameManager.GameOverEvent += this.onGameOver;
-            this.gameManager.GameWinEvent += this.onGameWin;
-            this.gameManager.HealthUpdateEvent += this.onHealthUpdate;
-            this.gameManager.InitializeGame();
+            var gameManager = new GameManager(this.theCanvas);
+            gameManager.ScoreUpdateEvent += this.onScoreUpdate;
+            gameManager.GameOverEvent += this.onGameOver;
+            gameManager.GameWinEvent += this.onGameWin;
+            gameManager.HealthUpdateEvent += this.onHealthUpdate;
+            gameManager.InitializeGame();
             this.scoreSummary.Text = "Score: 0";
             this.gameSummary.Text = "SPACE INVADERS!!!";
             this.healthSummary.Text = "Health: 3";
 
-            Window.Current.CoreWindow.KeyDown += this.gameManager.OnKeyDown;
-            this.timer =  new DispatcherTimer();
-            this.timer.Tick += this.gameManager.OnTick;
+            Window.Current.CoreWindow.KeyDown += gameManager.OnKeyDown;
+            this.timer = new DispatcherTimer();
+            this.timer.Tick += gameManager.OnTick;
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             this.timer.Start();
-
         }
+
+        #endregion
+
+        #region Methods
 
         private void onGameWin(object sender, EventArgs e)
         {
@@ -72,7 +76,7 @@ namespace SpaceInvaders.View
         private void onGameOver(object sender, EventArgs e)
         {
             this.timer.Stop();
-            this.gameSummary.Text = $"Game Over. You Lose!";
+            this.gameSummary.Text = "Game Over. You Lose!";
         }
 
         private void onScoreUpdate(object sender, ScoreUpdateArgs e)
@@ -80,6 +84,6 @@ namespace SpaceInvaders.View
             this.scoreSummary.Text = $"Score: {e.NewScore}";
         }
 
-
+        #endregion
     }
 }

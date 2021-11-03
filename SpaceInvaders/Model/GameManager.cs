@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
@@ -35,6 +34,9 @@ namespace SpaceInvaders.Model
         /// </summary>
         public event EventHandler<ScoreUpdateArgs> ScoreUpdateEvent;
 
+        /// <summary>
+        /// Occurs when [health update event].
+        /// </summary>
         public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
         #endregion
 

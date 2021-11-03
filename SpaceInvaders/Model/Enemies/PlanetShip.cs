@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using SpaceInvaders.View.Sprites;
+﻿using SpaceInvaders.View.Sprites;
 
 namespace SpaceInvaders.Model.Enemies
 {
@@ -22,7 +15,6 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// Initializes a new instance of the <see cref="PlanetShip"/> class.
         /// </summary>
-        /// <param name="score">the score of the ship</param>
         public PlanetShip()
         {
             this.Score = 10;
@@ -31,6 +23,9 @@ namespace SpaceInvaders.Model.Enemies
             this.shouldGoOut = true;
         }
 
+        /// <summary>
+        /// Changes the state of the Sprite. Should be called on each tick
+        /// </summary>
         public override void ChangeState()
         {
             var ship = (PlanetShipSprite)this.Sprite;

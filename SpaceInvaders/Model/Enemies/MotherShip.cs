@@ -1,5 +1,4 @@
 ﻿using System;
-using Windows.UI.Xaml.Controls;
 using SpaceInvaders.View.Sprites;
 
 namespace SpaceInvaders.Model.Enemies
@@ -20,7 +19,6 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// Initializes a new instance of the <see cref="MotherShip"/> class.
         /// </summary>
-        /// <param name="score">the score of the mother ship</param>
         public MotherShip() : base(5, 0)
         {
             this.Score = 5;
@@ -44,6 +42,9 @@ namespace SpaceInvaders.Model.Enemies
             return null;
         }
 
+        /// <summary>
+        /// Changes the state of the Sprite. Should be called on each tick
+        /// </summary>
         public virtual void ChangeState()
         {
             var ship = (MotherShipSprite)this.Sprite;

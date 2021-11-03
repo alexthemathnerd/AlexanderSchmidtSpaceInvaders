@@ -31,7 +31,6 @@
         /// </summary>
         /// <param name="speedX">The speed x.</param>
         /// <param name="speedY">The speed y.</param>
-        /// <param name="score">The score</param>
         protected EnemyShip(int speedX, int speedY)
         {
             this.stepsTraveled = 0;

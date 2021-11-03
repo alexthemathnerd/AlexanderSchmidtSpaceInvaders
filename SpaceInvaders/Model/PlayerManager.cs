@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model
@@ -14,7 +13,7 @@ namespace SpaceInvaders.Model
         private const double PlayerShipBottomOffset = 30;
         private const long ShootCooldown = 10;
 
-        private Canvas canvas;
+        private readonly Canvas canvas;
         private PlayerShip player;
         private long lastShotFired;
         
@@ -25,8 +24,14 @@ namespace SpaceInvaders.Model
         /// <value>
         /// The bullets.
         /// </value>
-        public List<Bullet> Bullets { get; private set; }
+        public List<Bullet> Bullets { get; }
 
+        /// <summary>
+        /// Gets the player health.
+        /// </summary>
+        /// <value>
+        /// The player health.
+        /// </value>
         public int PlayerHealth { get; private set; }
 
         /// <summary>
@@ -44,10 +49,10 @@ namespace SpaceInvaders.Model
             this.Bullets = new List<Bullet>();
             this.lastShotFired = 0;
             this.PlayerHealth = 3;
-            this.initialize(canvas);
+            this.initialize();
         }
 
-        private void initialize(Canvas canvas)
+        private void initialize()
         {
             this.createAndPlacePlayerShip();
         }

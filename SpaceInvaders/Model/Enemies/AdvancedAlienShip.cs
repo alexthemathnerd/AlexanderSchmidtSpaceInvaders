@@ -1,13 +1,12 @@
-﻿using Windows.UI;
-using SpaceInvaders.View.Sprites;
+﻿using SpaceInvaders.View.Sprites;
 
 namespace SpaceInvaders.Model.Enemies
 {
 
     /// <summary>
-    /// Represents a Alien Ship
+    /// Represents an Advanced Alien Ship
     /// </summary>
-    /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
+    /// <seealso cref="SpaceInvaders.Model.Enemies.AlienShip" />
     public class AdvancedAlienShip : AlienShip, IAnimate
     {
 
@@ -30,7 +29,9 @@ namespace SpaceInvaders.Model.Enemies
 
         #endregion
 
-
+        /// <summary>
+        /// Changes the state of the Sprite. Should be called on each tick
+        /// </summary>
         public void ChangeState()
         {
             var ship = (AdvancedAlienShipSprite)this.Sprite;

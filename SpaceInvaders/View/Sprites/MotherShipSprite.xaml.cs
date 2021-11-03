@@ -14,7 +14,7 @@ namespace SpaceInvaders.View.Sprites
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PlayerShipSprite" /> class.
+        ///     Initializes a new instance of the <see cref="MotherShipSprite" /> class.
         ///     Precondition: none
         ///     Postcondition: Sprite created.
         /// </summary>
@@ -25,13 +25,18 @@ namespace SpaceInvaders.View.Sprites
 
         #endregion
 
-
+        /// <summary>
+        /// Moves Barrels in
+        /// </summary>
         public void MoveIn()
         {
             this.leftBarrel.Translation -= new Vector3(0, 1, 0);
             this.rightBarrel.Translation -= new Vector3(0, 1, 0);
         }
 
+        /// <summary>
+        /// Moves Barrels out
+        /// </summary>
         public void MoveOut()
         {
             this.leftBarrel.Translation += new Vector3(0, 1, 0);

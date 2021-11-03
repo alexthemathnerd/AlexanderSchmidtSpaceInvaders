@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SpaceInvaders.Model.Enemies
+﻿namespace SpaceInvaders.Model.Enemies
 {
+
+    /// <summary>
+    /// An Interface to Represent a Object that can animate 
+    /// </summary>
     interface IAnimate
     {
 
+        /// <summary>
+        /// Changes the state of the Sprite. Should be called on each tick
+        /// </summary>
         void ChangeState();
 
     }

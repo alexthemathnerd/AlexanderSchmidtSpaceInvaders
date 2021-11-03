@@ -1,11 +1,10 @@
-﻿using Windows.UI;
-using SpaceInvaders.View.Sprites;
+﻿using SpaceInvaders.View.Sprites;
 
 namespace SpaceInvaders.Model.Enemies
 {
 
     /// <summary>
-    /// Represents a Alien Ship
+    /// Represents an Alien Ship
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
     public class AlienShip : EnemyShip

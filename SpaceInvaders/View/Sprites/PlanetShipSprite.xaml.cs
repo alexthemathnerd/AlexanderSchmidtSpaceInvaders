@@ -1,9 +1,4 @@
-﻿
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
-
-using System;
-
-namespace SpaceInvaders.View.Sprites
+﻿namespace SpaceInvaders.View.Sprites
 {
     /// <summary>
     ///     Draws a player ship.
@@ -17,7 +12,7 @@ namespace SpaceInvaders.View.Sprites
         #region Constructors
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PlayerShipSprite" /> class.
+        ///     Initializes a new instance of the <see cref="PlanetShipSprite" /> class.
         ///     Precondition: none
         ///     Postcondition: Sprite created.
         /// </summary>
@@ -33,6 +28,9 @@ namespace SpaceInvaders.View.Sprites
 
         }
 
+        /// <summary>
+        /// Moves arms out
+        /// </summary>
         public void MoveOut()
         {
             this.leftArm.Rotation += AngleChange;
@@ -40,6 +38,9 @@ namespace SpaceInvaders.View.Sprites
             this.mother.MoveOut();
         }
 
+        /// <summary>
+        /// Moves arms in
+        /// </summary>
         public void MoveIn()
         {
             this.leftArm.Rotation -= AngleChange;

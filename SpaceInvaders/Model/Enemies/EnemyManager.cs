@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
@@ -52,11 +51,6 @@ namespace SpaceInvaders.Model.Enemies
         ///     Initializes a new instance of the <see cref="EnemyManager" /> class.
         /// </summary>
         /// <param name="canvas">the canvas the enemies will be drawn on</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        ///     backgroundHeight less than or equal to 0
-        ///     or
-        ///     backgroundWidth less than or equal to 0
-        /// </exception>
         public EnemyManager(Canvas canvas)
         {
             this.canvas = canvas;
@@ -113,6 +107,9 @@ namespace SpaceInvaders.Model.Enemies
             }
         }
 
+        /// <summary>
+        /// Animates the enemies.
+        /// </summary>
         public void AnimateEnemies()
         {
             foreach (var aEnemy in this.enemies)
