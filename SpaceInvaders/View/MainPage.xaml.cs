@@ -44,8 +44,11 @@ namespace SpaceInvaders.View
             this.gameManager.ScoreUpdateEvent += this.onScoreUpdate;
             this.gameManager.GameOverEvent += this.onGameOver;
             this.gameManager.GameWinEvent += this.onGameWin;
+            this.gameManager.HealthUpdateEvent += this.onHealthUpdate;
             this.gameManager.InitializeGame();
             this.scoreSummary.Text = "Score: 0";
+            this.gameSummary.Text = "SPACE INVADERS!!!";
+            this.healthSummary.Text = "Health: 3";
 
             Window.Current.CoreWindow.KeyDown += this.gameManager.OnKeyDown;
             this.timer =  new DispatcherTimer();
@@ -58,13 +61,18 @@ namespace SpaceInvaders.View
         private void onGameWin(object sender, EventArgs e)
         {
             this.timer.Stop();
-            this.scoreSummary.Text = "Game Over. You Win!";
+            this.gameSummary.Text = "Game Over. You Win!";
+        }
+
+        private void onHealthUpdate(object sender, HealthUpdateArgs e)
+        {
+            this.healthSummary.Text = $"Health: {e.NewHealth}";
         }
 
         private void onGameOver(object sender, EventArgs e)
         {
             this.timer.Stop();
-            this.scoreSummary.Text = $"Game Over. You Lose!";
+            this.gameSummary.Text = $"Game Over. You Lose!";
         }
 
         private void onScoreUpdate(object sender, ScoreUpdateArgs e)

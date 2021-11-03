@@ -136,6 +136,7 @@
     <Compile Include="Model\IShoot.cs" />
     <Compile Include="Model\PlayerManager.cs" />
     <Compile Include="Model\PlayerShip.cs" />
+    <Compile Include="Model\HealthUpdateArgs.cs" />
     <Compile Include="Model\ScoreUpdateArgs.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

@@ -35,6 +35,7 @@ namespace SpaceInvaders.Model
         /// </summary>
         public event EventHandler<ScoreUpdateArgs> ScoreUpdateEvent;
 
+        public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
         #endregion
 
         #region Constructors
@@ -140,7 +141,12 @@ namespace SpaceInvaders.Model
             if (this.playerManager.PlayerHealth == 0)
             {
                 this.canvas.Children.Remove(ship.Sprite);
+                this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
                 this.GameOverEvent?.Invoke(this, EventArgs.Empty);
+            }
+            else
+            {
+                this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
             }
         }
 

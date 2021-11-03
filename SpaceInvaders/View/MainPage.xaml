@@ -14,7 +14,12 @@
         </Grid.RowDefinitions>
         <Canvas Grid.Row="0" x:Name="theCanvas" Width="640" Height="480" Background ="Black">
         </Canvas>
-        <TextBlock Grid.Row="1" x:Name="scoreSummary" Text="Score:" Foreground="Yellow" TextAlignment="Center" FontSize="25"/>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="100" HorizontalAlignment="Center">
+            <TextBlock x:Name="scoreSummary" Text="Score:" Foreground="Yellow" TextAlignment="Center" FontSize="20"/>
+            <TextBlock x:Name="gameSummary" Text="" Foreground="Yellow" TextAlignment="Center" FontSize="20"/>
+            <TextBlock x:Name="healthSummary" Text="Health:" Foreground="Yellow" TextAlignment="Center" FontSize="20"/>
+        </StackPanel>
+        
     </Grid>
     
 </Page>
