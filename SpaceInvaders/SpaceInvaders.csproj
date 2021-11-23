@@ -138,6 +138,7 @@
     <Compile Include="Model\PlayerShip.cs" />
     <Compile Include="Model\HealthUpdateArgs.cs" />
     <Compile Include="Model\ScoreUpdateArgs.cs" />
+    <Compile Include="Model\SoundManager.cs" />
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -223,7 +224,9 @@
       <Version>6.2.10</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Assets\SoundEffects\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
