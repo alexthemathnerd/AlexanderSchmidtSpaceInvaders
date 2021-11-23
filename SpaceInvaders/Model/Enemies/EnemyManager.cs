@@ -69,10 +69,10 @@ namespace SpaceInvaders.Model.Enemies
         /// <param name="background">The background.</param>
         private void initializeEnemies(Canvas background)
         {
-            EnemyBuilder.BuildRow<PlanetShip>(background, PlanetShipCount, 1, this.enemies);
-            EnemyBuilder.BuildRow<MotherShip>(background, MotherShipCount, 2, this.enemies);
-            EnemyBuilder.BuildRow<AdvancedAlienShip>(background, AdvancedAlienShipCount, 3, this.enemies);
-            EnemyBuilder.BuildRow<AlienShip>(background, AlienShipCount, 4, this.enemies);
+            this.enemies.AddRange(EnemyBuilder.BuildRow<PlanetShip>(background, PlanetShipCount, 1));
+            this.enemies.AddRange(EnemyBuilder.BuildRow<MotherShip>(background, MotherShipCount, 2));
+            this.enemies.AddRange(EnemyBuilder.BuildRow<AdvancedAlienShip>(background, AdvancedAlienShipCount, 3));
+            this.enemies.AddRange(EnemyBuilder.BuildRow<AlienShip>(background, AlienShipCount, 4));
         }
 
         /// <summary>
