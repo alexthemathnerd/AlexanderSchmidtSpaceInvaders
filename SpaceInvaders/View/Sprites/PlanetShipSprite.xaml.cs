@@ -6,8 +6,11 @@
     /// <seealso cref="Windows.UI.Xaml.Controls.UserControl" />
     public sealed partial class PlanetShipSprite
     {
+        #region Data members
 
         private const int AngleChange = 2;
+
+        #endregion
 
         #region Constructors
 
@@ -23,13 +26,10 @@
 
         #endregion
 
-        private void MotherShipSprite_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-
-        }
+        #region Methods
 
         /// <summary>
-        /// Moves arms out
+        ///     Moves arms out
         /// </summary>
         public void MoveOut()
         {
@@ -39,7 +39,7 @@
         }
 
         /// <summary>
-        /// Moves arms in
+        ///     Moves arms in
         /// </summary>
         public void MoveIn()
         {
@@ -47,5 +47,7 @@
             this.rightArm.Rotation += AngleChange;
             this.mother.MoveIn();
         }
+
+        #endregion
     }
 }

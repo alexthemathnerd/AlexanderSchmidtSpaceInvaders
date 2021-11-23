@@ -36,7 +36,7 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// The bullets in play.
         /// </summary>
-        public List<Bullet> Bullets { get; }
+        public ICollection<Bullet> Bullets { get; }
 
         /// <summary>
         /// Occurs when [player bullet collide event].

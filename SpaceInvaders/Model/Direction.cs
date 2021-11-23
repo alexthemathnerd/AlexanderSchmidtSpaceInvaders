@@ -5,6 +5,13 @@
     /// </summary>
     public enum Direction
     {
-        Left, Right
+        /// <summary>
+        /// The left
+        /// </summary>
+        Left,
+        /// <summary>
+        /// The right
+        /// </summary>
+        Right
     }
 }

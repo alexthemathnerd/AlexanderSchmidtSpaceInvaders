@@ -16,7 +16,7 @@
     </UserControl.Resources>
 
     <Canvas RenderTransformOrigin="0.5,0.5">
-        <local:MotherShipSprite x:Name ="mother" Canvas.Top="5" Loaded="MotherShipSprite_Loaded"/>
+        <local:MotherShipSprite x:Name ="mother" Canvas.Top="5"/>
         <Ellipse Width="30" Height="30" Canvas.Top="7" Canvas.Left="17" Fill="{StaticResource EnemyShipColor}"/>
         <Rectangle Width="10" Height="5" Canvas.Left="10" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>
         <Rectangle Width="10" Height="5" Canvas.Left="44" Canvas.Top="20" Fill="{StaticResource EnemyShipColor}"/>

@@ -16,10 +16,7 @@
     </UserControl.Resources>
 
     <Canvas>
-        <Rectangle Width="8" Height="22" Fill="Crimson" Canvas.Left="28" Canvas.Top="32"/>
-        <Ellipse Width="32" Height="32" Fill="Crimson" Canvas.Left="16" Canvas.Top="16"/>
-        <Polygon Points="0,10 32,40 64,10" Fill="Crimson" Height="64" Width="64"/>
-        <Ellipse Width="16" Height="16" Fill="{StaticResource EnemyShipColor}" Canvas.Left="24" Canvas.Top="24"/>
+        <local:AlienShipSprite></local:AlienShipSprite>
         <Rectangle x:Name="leftArm" Width="4" Height="22" Fill="Crimson" Canvas.Left="7" Canvas.Top="10"/>
         <Rectangle x:Name="rightArm" Width="4" Height="22" Fill="Crimson" Canvas.Left="53" Canvas.Top="10"/>
 
