@@ -18,12 +18,12 @@ namespace SpaceInvaders.View
         /// <summary>
         ///     The application height
         /// </summary>
-        public const double ApplicationHeight = 480;
+        public const double ApplicationHeight = 720;
 
         /// <summary>
         ///     The application width
         /// </summary>
-        public const double ApplicationWidth = 640;
+        public const double ApplicationWidth = 1080;
         private readonly DispatcherTimer timer;
 
         #endregion
@@ -62,8 +62,9 @@ namespace SpaceInvaders.View
 
         #region Methods
 
-        private void onGameWin(object sender, EventArgs e)
+        private async void onGameWin(object sender, EventArgs e)
         {
+            await GameManager.soundManager.Play(SoundEffectsEnum.Win);
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Win!";
         }
@@ -77,6 +78,7 @@ namespace SpaceInvaders.View
         {
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Lose!";
+            
         }
 
         private void onScoreUpdate(object sender, ScoreUpdateArgs e)

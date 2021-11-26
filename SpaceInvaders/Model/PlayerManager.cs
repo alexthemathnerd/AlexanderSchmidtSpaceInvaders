@@ -83,6 +83,7 @@ namespace SpaceInvaders.Model
             var distance = DistanceCalculator.CalculateDistance(x1, y1, x2, y2);
             if (distance < (bullet.Width + this.player.Width) / 2)
             {
+                GameManager.soundManager.Play(SoundEffectsEnum.PlayerDestroyed);
                 this.PlayerHealth--;
                 this.EnemyBulletCollideEvent?.Invoke(this.player, new CollisionEventArgs(bullet));
             }
@@ -95,10 +96,13 @@ namespace SpaceInvaders.Model
         {
             if (this.Bullets.Count < 3 && DateTime.Now.Ticks - this.lastShotFired > ShootCooldown)
             {
+                GameManager.soundManager.Play(SoundEffectsEnum.PlayerFire);
+
                 this.lastShotFired = DateTime.Now.Ticks;
                 var bullet = new Bullet(this.player);
                 this.Bullets.Add(bullet);
                 this.canvas.Children.Add(bullet.Sprite);
+
             }
         }
 

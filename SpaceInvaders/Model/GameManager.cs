@@ -16,6 +16,7 @@ namespace SpaceInvaders.Model
 
         private PlayerManager playerManager;
         private EnemyManager enemyManager;
+        public static SoundManager soundManager = new SoundManager();
         private readonly Canvas canvas;
         private int score;
 
@@ -68,6 +69,7 @@ namespace SpaceInvaders.Model
             this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
             this.enemyManager = new EnemyManager(this.canvas);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
+            
         }
 
         /// <summary>
@@ -145,6 +147,7 @@ namespace SpaceInvaders.Model
                 this.canvas.Children.Remove(ship.Sprite);
                 this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
                 this.GameOverEvent?.Invoke(this, EventArgs.Empty);
+                soundManager.Play(SoundEffectsEnum.Lose);
             }
             else
             {
