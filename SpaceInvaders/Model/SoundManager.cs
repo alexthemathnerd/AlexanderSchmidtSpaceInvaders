@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.Storage;
-using Windows.UI.Xaml.Controls;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 
 namespace SpaceInvaders.Model
 {
@@ -17,60 +15,75 @@ namespace SpaceInvaders.Model
         Lose
     }
 
+    /// <summary>Plays GameSounds.</summary>
     public class SoundManager
     {
         #region Properties
 
-        /*private static var musicFolder = Windows.ApplicationModel.Package.Current.InstalledLocation.;*/
-
-        private Dictionary<SoundEffectsEnum, MediaElement> SoundEffects { get; }
-
-        #endregion
-
-        #region Constructors
-
-        public SoundManager()
-        {
-            this.SoundEffects = new Dictionary<SoundEffectsEnum, MediaElement>();
-            this.loadSoundEffects();
-        }
+        private static Dictionary<SoundEffectsEnum, MediaPlayer> SoundEffects { get; } =
+            new Dictionary<SoundEffectsEnum, MediaPlayer>
+            {
+                {
+                    SoundEffectsEnum.PlayerFire,
+                    new MediaPlayer
+                    {
+                        Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/Player_Fire.wav")),
+                        AutoPlay = false
+                    }
+                },
+                {
+                    SoundEffectsEnum.PlayerDestroyed,
+                    new MediaPlayer
+                    {
+                        Source = MediaSource.CreateFromUri(
+                            new Uri("ms-appx:///Assets/SoundEffects/Player_Destroyed.wav")),
+                        AutoPlay = false
+                    }
+                },
+                {
+                    SoundEffectsEnum.EnemyFire,
+                    new MediaPlayer
+                    {
+                        Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/Enemy_Fire.wav")),
+                        AutoPlay = false
+                    }
+                },
+                {
+                    SoundEffectsEnum.EnemyDestroyed,
+                    new MediaPlayer
+                    {
+                        Source = MediaSource.CreateFromUri(
+                            new Uri("ms-appx:///Assets/SoundEffects/Enemy_Destroyed.wav")),
+                        AutoPlay = false
+                    }
+                },
+                {
+                    SoundEffectsEnum.Lose,
+                    new MediaPlayer
+                    {
+                        Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/You_Lose.wav")),
+                        AutoPlay = false
+                    }
+                },
+                {
+                    SoundEffectsEnum.Win,
+                    new MediaPlayer
+                    {
+                        Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/You_Win.wav")),
+                        AutoPlay = false
+                    }
+                }
+            };
 
         #endregion
 
         #region Methods
 
-        private async Task<MediaElement> LoadSoundFile(string sound)
+        /// <summary>Plays the specified sound.</summary>
+        /// <param name="sound">The sound.</param>
+        public static void Play(SoundEffectsEnum sound)
         {
-            var soundEffect = new MediaElement
-            {
-                AutoPlay = false
-            };
-            var musicFolder = await Package.Current.InstalledLocation.GetFolderAsync(@"Assets\SoundEffects");
-            var soundEffectFile = await musicFolder.GetFileAsync(sound);
-            var stream = await soundEffectFile.OpenAsync(FileAccessMode.Read);
-            soundEffect.SetSource(stream, soundEffectFile.ContentType);
-            return soundEffect;
-
-            /*player.Source = new Uri(@"Assets\SoundEffects\ding.wav"); */ /*MediaSource.CreateFromStorageFile(sound);*/
-
-            /*            player.Source = MediaSource.CreateFromUri(new Uri("Assets\\SoundEffects\\ding.wav"));
-                        Windows.Storage.StorageFile file;
-                        file.Path = "Assets\\SoundEffects\\ding.wav";*/
-        }
-
-        private async void loadSoundEffects()
-        {
-            this.SoundEffects.Add(SoundEffectsEnum.PlayerFire, await this.LoadSoundFile("Player_Fire.wav"));
-            this.SoundEffects.Add(SoundEffectsEnum.PlayerDestroyed, await this.LoadSoundFile("Player_Destroyed.wav"));
-            this.SoundEffects.Add(SoundEffectsEnum.EnemyFire, await this.LoadSoundFile("Enemy_Fire.wav"));
-            this.SoundEffects.Add(SoundEffectsEnum.EnemyDestroyed, await this.LoadSoundFile("Enemy_Destroyed.wav"));
-            this.SoundEffects.Add(SoundEffectsEnum.Lose, await this.LoadSoundFile("You_Lose.wav"));
-            this.SoundEffects.Add(SoundEffectsEnum.Win, await this.LoadSoundFile("You_Win.wav"));
-        }
-
-        public async Task Play(SoundEffectsEnum sound)
-        {
-            var soundEffect = this.SoundEffects[sound];
+            var soundEffect = SoundEffects[sound];
 
             soundEffect.Play();
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SpaceInvaders.Model.Enemies;
 
@@ -16,7 +17,6 @@ namespace SpaceInvaders.Model
 
         private PlayerManager playerManager;
         private EnemyManager enemyManager;
-        public static SoundManager soundManager = new SoundManager();
         private readonly Canvas canvas;
         private int score;
 
@@ -39,6 +39,7 @@ namespace SpaceInvaders.Model
         /// Occurs when [health update event].
         /// </summary>
         public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
+
         #endregion
 
         #region Constructors
@@ -69,7 +70,7 @@ namespace SpaceInvaders.Model
             this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
             this.enemyManager = new EnemyManager(this.canvas);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
-            
+
         }
 
         /// <summary>
@@ -79,6 +80,12 @@ namespace SpaceInvaders.Model
         /// <param name="e">The e.</param>
         public void OnTick(object sender, object e)
         {
+
+            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.ShotBullet();
+            }
+            ;
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
@@ -120,9 +127,6 @@ namespace SpaceInvaders.Model
                 case VirtualKey.Right:
                     this.playerManager.MovePlayer(Direction.Right);
                     break;
-                case VirtualKey.Space:
-                    this.playerManager.ShotBullet();
-                    break;
             }
         }
 
@@ -147,7 +151,7 @@ namespace SpaceInvaders.Model
                 this.canvas.Children.Remove(ship.Sprite);
                 this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
                 this.GameOverEvent?.Invoke(this, EventArgs.Empty);
-                soundManager.Play(SoundEffectsEnum.Lose);
+                SoundManager.Play(SoundEffectsEnum.Lose);
             }
             else
             {

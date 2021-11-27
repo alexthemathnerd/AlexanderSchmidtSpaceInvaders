@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using SpaceInvaders.Model;
@@ -35,6 +36,7 @@ namespace SpaceInvaders.View
         /// </summary>
         public MainPage()
         {
+            
             this.InitializeComponent();
 
             ApplicationView.PreferredLaunchViewSize = new Size { Width = ApplicationWidth, Height = ApplicationHeight };
@@ -52,6 +54,8 @@ namespace SpaceInvaders.View
             this.healthSummary.Text = "Health: 3";
 
             Window.Current.CoreWindow.KeyDown += gameManager.OnKeyDown;
+           /* Window.Current.CoreWindow.KeyUp += gameManager.OnKeyUp;*/
+            
             this.timer = new DispatcherTimer();
             this.timer.Tick += gameManager.OnTick;
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
@@ -62,9 +66,9 @@ namespace SpaceInvaders.View
 
         #region Methods
 
-        private async void onGameWin(object sender, EventArgs e)
+        private void onGameWin(object sender, EventArgs e)
         {
-            await GameManager.soundManager.Play(SoundEffectsEnum.Win);
+            SoundManager.Play(SoundEffectsEnum.Win);
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Win!";
         }
