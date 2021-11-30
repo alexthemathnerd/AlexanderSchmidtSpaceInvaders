@@ -98,8 +98,10 @@ namespace SpaceInvaders.Model.Enemies
                     var bullet = iShootEnemy.Shoot();
                     if (bullet != null)
                     {
+                        SoundManager.Play(SoundEffectsEnum.EnemyFire);
                         this.Bullets.Add(bullet);
                         this.canvas.Children.Add(bullet.Sprite);
+                        
                     }
                 }
             }
@@ -161,6 +163,7 @@ namespace SpaceInvaders.Model.Enemies
 
             if (shipToRemove != null)
             {
+                SoundManager.Play(SoundEffectsEnum.EnemyDestroyed);
                 this.enemies.Remove(shipToRemove);
             }
         }

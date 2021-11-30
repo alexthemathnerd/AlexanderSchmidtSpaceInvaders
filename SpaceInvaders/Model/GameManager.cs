@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SpaceInvaders.Model.Enemies;
 
@@ -36,6 +37,7 @@ namespace SpaceInvaders.Model
         public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
 
         public event EventHandler<LevelChangeEventArgs> LevelChangeEvent;
+
         #endregion
 
         #region Constructors
@@ -69,6 +71,7 @@ namespace SpaceInvaders.Model
             this.currentLevel = 1;
             this.enemyManager.InitializeLevel(this.currentLevel);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
+
         }
 
         /// <summary>
@@ -78,6 +81,12 @@ namespace SpaceInvaders.Model
         /// <param name="e">The e.</param>
         public void OnTick(object sender, object e)
         {
+
+            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.ShotBullet();
+            }
+            ;
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
@@ -148,6 +157,7 @@ namespace SpaceInvaders.Model
                 this.canvas.Children.Remove(ship.Sprite);
                 this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
                 this.GameOverEvent?.Invoke(this, EventArgs.Empty);
+                SoundManager.Play(SoundEffectsEnum.Lose);
             }
             else
             {

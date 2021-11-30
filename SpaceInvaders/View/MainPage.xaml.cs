@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using SpaceInvaders.Model;
@@ -19,12 +20,12 @@ namespace SpaceInvaders.View
         /// <summary>
         ///     The application height
         /// </summary>
-        public const double ApplicationHeight = 480;
+        public const double ApplicationHeight = 720;
 
         /// <summary>
         ///     The application width
         /// </summary>
-        public const double ApplicationWidth = 640;
+        public const double ApplicationWidth = 1080;
         private readonly DispatcherTimer timer;
 
         #endregion
@@ -36,6 +37,7 @@ namespace SpaceInvaders.View
         /// </summary>
         public MainPage()
         {
+            
             this.InitializeComponent();
 
             ApplicationView.PreferredLaunchViewSize = new Size { Width = ApplicationWidth, Height = ApplicationHeight };
@@ -53,6 +55,8 @@ namespace SpaceInvaders.View
             this.healthSummary.Text = "Health: 3";
 
             Window.Current.CoreWindow.KeyDown += gameManager.OnKeyDown;
+           /* Window.Current.CoreWindow.KeyUp += gameManager.OnKeyUp;*/
+            
             this.timer = new DispatcherTimer();
             this.timer.Tick += gameManager.OnTick;
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
@@ -76,6 +80,12 @@ namespace SpaceInvaders.View
                 this.gameSummary.Text = $"Level: {e.NewLevel}";
             }
         }
+        private void onGameWin(object sender, EventArgs e)
+        {
+            SoundManager.Play(SoundEffectsEnum.Win);
+            this.timer.Stop();
+            this.gameSummary.Text = "Game Over. You Win!";
+        }
 
         private void onHealthUpdate(object sender, HealthUpdateArgs e)
         {
@@ -86,6 +96,7 @@ namespace SpaceInvaders.View
         {
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Lose!";
+            
         }
 
         private void onScoreUpdate(object sender, ScoreUpdateArgs e)
