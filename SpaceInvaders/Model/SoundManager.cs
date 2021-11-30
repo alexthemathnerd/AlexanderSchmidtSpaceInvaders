@@ -85,6 +85,7 @@ namespace SpaceInvaders.Model
         {
             var soundEffect = SoundEffects[sound];
 
+            soundEffect.PlaybackSession.Position = TimeSpan.MinValue;
             soundEffect.Play();
         }
 

@@ -82,10 +82,10 @@ namespace SpaceInvaders.Model
         public void OnTick(object sender, object e)
         {
 
-            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
+          /*  if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
             {
                 this.playerManager.ShotBullet();
-            }
+            }*/
             ;
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
