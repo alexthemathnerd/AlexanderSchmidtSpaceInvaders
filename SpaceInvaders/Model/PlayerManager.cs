@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model
@@ -11,11 +12,11 @@ namespace SpaceInvaders.Model
     {
 
         private const double PlayerShipBottomOffset = 30;
-        private const long ShootCooldown = 10;
+        private const long ShootCooldown = 500;
 
         private readonly Canvas canvas;
         private PlayerShip player;
-        private long lastShotFired;
+        private DateTime lastShotFired;
         
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace SpaceInvaders.Model
         {
             this.canvas = canvas;
             this.Bullets = new List<Bullet>();
-            this.lastShotFired = 0;
+            this.lastShotFired = DateTime.MinValue; 
             this.PlayerHealth = 3;
             this.initialize();
         }
@@ -92,13 +93,12 @@ namespace SpaceInvaders.Model
         /// <summary>
         /// Shoots the player bullet.
         /// </summary>
-        public void ShotBullet()
+        public void ShootBullet()
         {
-            if (this.Bullets.Count < 3 && DateTime.Now.Ticks - this.lastShotFired > ShootCooldown)
+            if (this.Bullets.Count < 3 && DateTime.Now.Subtract(this.lastShotFired).Milliseconds > ShootCooldown)
             {
                 SoundManager.Play(SoundEffectsEnum.PlayerFire);
-
-                this.lastShotFired = DateTime.Now.Ticks;
+                this.lastShotFired = DateTime.Now;
                 var bullet = new Bullet(this.player);
                 this.Bullets.Add(bullet);
                 this.canvas.Children.Add(bullet.Sprite);

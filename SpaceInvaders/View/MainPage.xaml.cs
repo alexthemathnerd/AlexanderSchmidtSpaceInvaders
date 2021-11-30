@@ -55,8 +55,8 @@ namespace SpaceInvaders.View
             this.healthSummary.Text = "Health: 3";
 
             Window.Current.CoreWindow.KeyDown += gameManager.OnKeyDown;
-           /* Window.Current.CoreWindow.KeyUp += gameManager.OnKeyUp;*/
-            
+            /* Window.Current.CoreWindow.KeyUp += gameManager.OnKeyUp;*/
+
             this.timer = new DispatcherTimer();
             this.timer.Tick += gameManager.OnTick;
             this.timer.Interval = new TimeSpan(0, 0, 0, 0, 1);

@@ -20,7 +20,6 @@ namespace SpaceInvaders.Model
         private readonly Canvas canvas;
         private int score;
         private int currentLevel;
-
         /// <summary>
         /// Occurs when [game over event].
         /// </summary>
@@ -81,12 +80,6 @@ namespace SpaceInvaders.Model
         /// <param name="e">The e.</param>
         public void OnTick(object sender, object e)
         {
-
-            if (Window.Current.CoreWindow.GetKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
-            {
-                this.playerManager.ShotBullet();
-            }
-            ;
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
@@ -122,17 +115,17 @@ namespace SpaceInvaders.Model
         /// <param name="args">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
         public void OnKeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            switch (args.VirtualKey)
+            if (args.VirtualKey == VirtualKey.Left || sender.GetAsyncKeyState(VirtualKey.Left) == CoreVirtualKeyStates.Down)
             {
-                case VirtualKey.Left:
-                    this.playerManager.MovePlayer(Direction.Left);
-                    break;
-                case VirtualKey.Right:
-                    this.playerManager.MovePlayer(Direction.Right);
-                    break;
-                case VirtualKey.Space:
-                    this.playerManager.ShotBullet();
-                    break;
+                this.playerManager.MovePlayer(Direction.Left);
+            }
+            if (args.VirtualKey == VirtualKey.Right || sender.GetAsyncKeyState(VirtualKey.Right) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.MovePlayer(Direction.Right);
+            }
+            if (args.VirtualKey == VirtualKey.Space || sender.GetAsyncKeyState(VirtualKey.Space).Equals(CoreVirtualKeyStates.Down))
+            {
+                this.playerManager.ShootBullet();
             }
         }
 
