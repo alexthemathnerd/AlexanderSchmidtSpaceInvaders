@@ -167,6 +167,9 @@
     <Compile Include="View\Sprites\AlienShipSprite.xaml.cs">
       <DependentUpon>AlienShipSprite.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Sprites\PowerUpSprite.xaml.cs">
+      <DependentUpon>PowerUpSprite.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -237,6 +240,10 @@
     <Page Include="View\Sprites\AlienShipSprite.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Sprites\PowerUpSprite.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
