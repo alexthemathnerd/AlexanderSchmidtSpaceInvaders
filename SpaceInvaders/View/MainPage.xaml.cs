@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -44,7 +45,7 @@ namespace SpaceInvaders.View
             var gameManager = new GameManager(this.theCanvas);
             gameManager.ScoreUpdateEvent += this.onScoreUpdate;
             gameManager.GameOverEvent += this.onGameOver;
-            gameManager.GameWinEvent += this.onGameWin;
+            gameManager.LevelChangeEvent += this.onLevelChange;
             gameManager.HealthUpdateEvent += this.onHealthUpdate;
             gameManager.InitializeGame();
             this.scoreSummary.Text = "Score: 0";
@@ -62,10 +63,18 @@ namespace SpaceInvaders.View
 
         #region Methods
 
-        private void onGameWin(object sender, EventArgs e)
+        private void onLevelChange(object sender, LevelChangeEventArgs e)
         {
-            this.timer.Stop();
-            this.gameSummary.Text = "Game Over. You Win!";
+            Debug.WriteLine("LEVEL UP!");
+            if (e.NewLevel > 3)
+            {
+                this.timer.Stop();
+                this.gameSummary.Text = "Game Over. You Win!";
+            }
+            else
+            {
+                this.gameSummary.Text = $"Level: {e.NewLevel}";
+            }
         }
 
         private void onHealthUpdate(object sender, HealthUpdateArgs e)

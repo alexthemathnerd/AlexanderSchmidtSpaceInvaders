@@ -56,7 +56,6 @@ namespace SpaceInvaders.Model.Enemies
             this.canvas = canvas;
             this.enemies = new List<EnemyShip>();
             this.Bullets = new List<Bullet>();
-            this.initializeEnemies(canvas);
         }
 
         #endregion
@@ -66,13 +65,12 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         ///     Initializes the enemies.
         /// </summary>
-        /// <param name="background">The background.</param>
-        private void initializeEnemies(Canvas background)
+        /// <param name="levelNumber">The current level to initialize</param>
+        public void InitializeLevel(int levelNumber)
         {
-            this.enemies.AddRange(EnemyBuilder.BuildRow<PlanetShip>(background, PlanetShipCount, 1));
-            this.enemies.AddRange(EnemyBuilder.BuildRow<MotherShip>(background, MotherShipCount, 2));
-            this.enemies.AddRange(EnemyBuilder.BuildRow<AdvancedAlienShip>(background, AdvancedAlienShipCount, 3));
-            this.enemies.AddRange(EnemyBuilder.BuildRow<AlienShip>(background, AlienShipCount, 4));
+            this.enemies.Clear();
+            this.Bullets.Clear();
+            this.enemies.AddRange(EnemyBuilder.BuildLevel(this.canvas, Level.GetLevel(levelNumber)));
         }
 
         /// <summary>

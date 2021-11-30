@@ -18,16 +18,12 @@ namespace SpaceInvaders.Model
         private EnemyManager enemyManager;
         private readonly Canvas canvas;
         private int score;
+        private int currentLevel;
 
         /// <summary>
         /// Occurs when [game over event].
         /// </summary>
         public event EventHandler GameOverEvent;
-
-        /// <summary>
-        /// Occurs when [game win event].
-        /// </summary>
-        public event EventHandler GameWinEvent;
 
         /// <summary>
         /// Occurs when [score update event].
@@ -38,6 +34,8 @@ namespace SpaceInvaders.Model
         /// Occurs when [health update event].
         /// </summary>
         public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
+
+        public event EventHandler<LevelChangeEventArgs> LevelChangeEvent;
         #endregion
 
         #region Constructors
@@ -51,6 +49,7 @@ namespace SpaceInvaders.Model
         {
             this.canvas = canvas;
             this.score = 0;
+            this.currentLevel = 0;
         }
 
         #endregion
@@ -67,6 +66,8 @@ namespace SpaceInvaders.Model
             this.playerManager = new PlayerManager(this.canvas);
             this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
             this.enemyManager = new EnemyManager(this.canvas);
+            this.currentLevel = 1;
+            this.enemyManager.InitializeLevel(this.currentLevel);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
         }
 
@@ -99,7 +100,9 @@ namespace SpaceInvaders.Model
 
             if (!this.enemyManager.HasMoreEnemies)
             {
-                this.GameWinEvent?.Invoke(this, EventArgs.Empty);
+                this.currentLevel++;
+                this.enemyManager.InitializeLevel(this.currentLevel);
+                this.LevelChangeEvent?.Invoke(this, new LevelChangeEventArgs(this.currentLevel));
             }
         }
 

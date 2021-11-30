@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
@@ -15,17 +16,16 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// Builds the enemy.
         /// </summary>
-        /// <typeparam name="T">the type of the enemy</typeparam>
+        /// <param name="type">the type of the enemy</param>
         /// <param name="xPos">The x position.</param>
         /// <param name="yPos">The y position.</param>
         /// <returns>the created ship</returns>
-        public static EnemyShip BuildEnemy<T>(int xPos, int yPos) where T : EnemyShip, new()
+        public static EnemyShip BuildEnemy(Type type, int xPos, int yPos)
         {
-            return new T
-            {
-                X = xPos,
-                Y = yPos
-            };
+            EnemyShip enemy = (EnemyShip)Activator.CreateInstance(type);
+            enemy.X = xPos;
+            enemy.Y = yPos;
+            return enemy;
         }
 
         /// <summary>
@@ -36,17 +36,28 @@ namespace SpaceInvaders.Model.Enemies
         /// <param name="amount">The amount of enemies on the row</param>
         /// <param name="row">The row to be added to</param>
         /// <returns>A list of enemies in the row</returns>
-        public static IList<EnemyShip> BuildRow<T> (Canvas canvas, int amount, int row) where T : EnemyShip, new()
+        public static IList<EnemyShip> BuildRow(Canvas canvas, Type type, int amount, int row)
         {
             var yPos = EnemyGap * row + EnemyWidth * (row - 1);
             var prevX = (int)((canvas.Width - (EnemyWidth * amount + EnemyGap * (amount - 1))) / 2);
             var enemies = new List<EnemyShip>();
             for (var i = 0; i < amount; i++)
             {
-                var enemy = BuildEnemy<T>(prevX, yPos);
+                var enemy = BuildEnemy(type, prevX, yPos);
                 enemies.Add(enemy);
                 canvas.Children.Add(enemy.Sprite);
                 prevX += EnemyWidth + EnemyGap;
+            }
+
+            return enemies;
+        }
+
+        public static IList<EnemyShip> BuildLevel(Canvas canvas, Level level)
+        {
+            var enemies = new List<EnemyShip>();
+            for (int i = 0; i < level.TypeByRow.Count; i++)
+            {
+                enemies.AddRange(BuildRow(canvas, level.TypeByRow[i], level.AmountByRow[i], i + 1));
             }
 
             return enemies;
