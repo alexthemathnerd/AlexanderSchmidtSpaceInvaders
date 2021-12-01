@@ -5,6 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SpaceInvaders.Model.Enemies;
+using System.Diagnostics;
 
 namespace SpaceInvaders.Model
 {
@@ -131,12 +132,20 @@ namespace SpaceInvaders.Model
 
         private void onEnemyCollision(object sender, CollisionEventArgs e)
         {
+
+            if (sender is SpecialShip)
+            {
+                this.playerManager.PowerUp();
+            }
+
             EnemyShip ship = (EnemyShip)sender;
             this.canvas.Children.Remove(ship.Sprite);
             this.canvas.Children.Remove(e.Bullet.Sprite);
             this.playerManager.Bullets.Remove(e.Bullet);
             this.score += ship.Score;
             this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.score));
+
+            
         }
 
 

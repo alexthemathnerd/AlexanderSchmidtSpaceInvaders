@@ -131,6 +131,7 @@
     <Compile Include="Model\Enemies\EnemyManager.cs" />
     <Compile Include="Model\Enemies\EnemyShip.cs" />
     <Compile Include="Model\Enemies\PlanetShip.cs" />
+    <Compile Include="Model\Enemies\SpecialShip.cs" />
     <Compile Include="Model\GameManager.cs" />
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\IShoot.cs" />
@@ -167,8 +168,8 @@
     <Compile Include="View\Sprites\AlienShipSprite.xaml.cs">
       <DependentUpon>AlienShipSprite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Sprites\PowerUpSprite.xaml.cs">
-      <DependentUpon>PowerUpSprite.xaml</DependentUpon>
+    <Compile Include="View\Sprites\SpecialShipSprite.xaml.cs">
+      <DependentUpon>SpecialShipSprite.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -241,7 +242,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Sprites\PowerUpSprite.xaml">
+    <Page Include="View\Sprites\SpecialShipSprite.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

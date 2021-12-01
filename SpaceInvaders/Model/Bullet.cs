@@ -30,6 +30,5 @@ namespace SpaceInvaders.Model
             this.X = this.Owner.X + this.Owner.Width / 2.0 - this.Width / 2;
             this.Y = this.Owner.Y + this.Height / 2;
         }
-
     }
 }

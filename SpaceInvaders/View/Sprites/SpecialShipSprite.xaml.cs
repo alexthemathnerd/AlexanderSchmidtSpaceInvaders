@@ -17,9 +17,9 @@ using Windows.UI.Xaml.Navigation;
 
 namespace SpaceInvaders.View.Sprites
 {
-    public sealed partial class PowerUpSprite : UserControl
+    public sealed partial class SpecialShipSprite
     {
-        public PowerUpSprite()
+        public SpecialShipSprite()
         {
             this.InitializeComponent();
         }

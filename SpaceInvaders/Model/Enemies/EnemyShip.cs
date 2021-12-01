@@ -72,7 +72,7 @@
         /// <summary>
         /// Moves this Enemy;
         /// </summary>
-        public void Move()
+        public virtual void Move()
         {
             if (this.ShouldGoLeft)
             {

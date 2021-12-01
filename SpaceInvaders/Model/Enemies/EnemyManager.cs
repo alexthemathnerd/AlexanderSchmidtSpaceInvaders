@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SpaceInvaders.View.Sprites;
+using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 
@@ -15,12 +16,14 @@ namespace SpaceInvaders.Model.Enemies
         private const int AdvancedAlienShipCount = 6;
         private const int MotherShipCount = 4;
         private const int PlanetShipCount = 2;
+        private const int SpecialShipStartingY = 2;
+        private const int SpecialShipStartingX = -2;
 
         private const int EnemiesBulletCap = 3;
 
         private readonly List<EnemyShip> enemies;
         private readonly Canvas canvas;
-
+        
         #endregion
 
         #region Properties
@@ -42,6 +45,8 @@ namespace SpaceInvaders.Model.Enemies
         /// Occurs when [player bullet collide event].
         /// </summary>
         public event EventHandler<CollisionEventArgs> PlayerBulletCollideEvent;
+
+        private bool hasSpecialShip { get; set; } = false;
 
         #endregion
 
@@ -79,8 +84,8 @@ namespace SpaceInvaders.Model.Enemies
         public void MoveEnemies()
         {
             foreach (var aEnemy in this.enemies)
-            {
-                aEnemy.Move();
+            { 
+               aEnemy.Move(); 
             }
         }
 
@@ -165,9 +170,36 @@ namespace SpaceInvaders.Model.Enemies
             {
                 SoundManager.Play(SoundEffectsEnum.EnemyDestroyed);
                 this.enemies.Remove(shipToRemove);
+                this.spawnSpecialShip();
             }
+            
+        }
+         
+        public void spawnSpecialShip()
+        {
+            var random = new Random();
+            bool spawnIn = true;
+            if (!hasSpecialShip && spawnIn)
+            {
+                var specialShip = EnemyBuilder.BuildEnemy(typeof(SpecialShip), SpecialShipStartingX, SpecialShipStartingY);
+                this.enemies.Add(specialShip);
+                this.canvas.Children.Add(specialShip.Sprite);
+
+                this.hasSpecialShip = true;
+
+                ((SpecialShip)specialShip).LeavesScreenEvent += removeSpecialShipWhenOffScreen;
+                
+            }
+                
         }
 
+        private void removeSpecialShipWhenOffScreen(object sender, EventArgs e)
+        {
+            this.enemies.Remove((EnemyShip)sender);
+            this.canvas.Children.Remove(((EnemyShip)sender).Sprite);
+            this.hasSpecialShip = false;
+
+        }
         #endregion
     }
 }
