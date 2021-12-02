@@ -11,6 +11,7 @@ namespace SpaceInvaders.Model
         PlayerDestroyed,
         EnemyFire,
         EnemyDestroyed,
+        SpecialShip,
         Win,
         Lose
     }
@@ -28,7 +29,8 @@ namespace SpaceInvaders.Model
                     new MediaPlayer
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/Player_Fire.wav")),
-                        AutoPlay = false
+                        AutoPlay = false,
+                        Volume = .5
                     }
                 },
                 {
@@ -37,7 +39,8 @@ namespace SpaceInvaders.Model
                     {
                         Source = MediaSource.CreateFromUri(
                             new Uri("ms-appx:///Assets/SoundEffects/Player_Destroyed.wav")),
-                        AutoPlay = false
+                        AutoPlay = false,
+                        Volume = .5
                     }
                 },
                 {
@@ -45,7 +48,8 @@ namespace SpaceInvaders.Model
                     new MediaPlayer
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/Enemy_Fire.wav")),
-                        AutoPlay = false
+                        AutoPlay = false,
+                        Volume = .5
                     }
                 },
                 {
@@ -54,15 +58,26 @@ namespace SpaceInvaders.Model
                     {
                         Source = MediaSource.CreateFromUri(
                             new Uri("ms-appx:///Assets/SoundEffects/Enemy_Destroyed.wav")),
-                        AutoPlay = false
+                        AutoPlay = false,
+                        Volume = .5
                     }
+                },
+                {
+                   SoundEffectsEnum.SpecialShip,
+                   new MediaPlayer
+                   {
+                       Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/SpecialShip.wav")),
+                       AutoPlay = false,
+                       Volume = .5
+                   }
                 },
                 {
                     SoundEffectsEnum.Lose,
                     new MediaPlayer
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/You_Lose.wav")),
-                        AutoPlay = false
+                        AutoPlay = false,
+                        Volume = .5
                     }
                 },
                 {
@@ -70,7 +85,8 @@ namespace SpaceInvaders.Model
                     new MediaPlayer
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/You_Win.wav")),
-                        AutoPlay = false
+                        AutoPlay = false,
+                        Volume = .5
                     }
                 }
             };
@@ -89,6 +105,14 @@ namespace SpaceInvaders.Model
             soundEffect.Play();
         }
 
+        /// <summary>Stop the specified sound.</summary>
+        /// <param name="sound">The sound.</param>
+        public static void Stop(SoundEffectsEnum sound)
+        {
+            var soundEffect = SoundEffects[sound];
+           
+            soundEffect.Pause();
+        }
         #endregion
     }
 }

@@ -88,7 +88,7 @@ namespace SpaceInvaders.Model
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
-            this.enemyManager.ShootBullets();
+            this.enemyManager.ShootBullets(this.playerManager.player);
             this.enemyManager.MoveBullets();
             this.checkCollisions();
         }
@@ -137,6 +137,7 @@ namespace SpaceInvaders.Model
             {
                 this.playerManager.PowerUp();
                 this.enemyManager.hasSpecialShip = false;
+                SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             }
 
             EnemyShip ship = (EnemyShip)sender;

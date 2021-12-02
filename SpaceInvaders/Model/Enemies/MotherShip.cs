@@ -14,7 +14,7 @@ namespace SpaceInvaders.Model.Enemies
         private const int ExtendCap = 10;
         private int extendCount;
         private bool shouldExtend;
-        private const double ChanceToShoot = 1;
+        protected const double ChanceToShoot = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MotherShip"/> class.
@@ -30,7 +30,7 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// Makes the MotherShip Shoot
         /// </summary>
-        public Bullet Shoot()
+        public virtual Bullet Shoot()
         {
             Random rand = new Random();
             int doShoot = rand.Next(100);
