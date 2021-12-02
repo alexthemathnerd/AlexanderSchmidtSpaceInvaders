@@ -80,6 +80,10 @@ namespace SpaceInvaders.Model
         /// <param name="e">The e.</param>
         public void OnTick(object sender, object e)
         {
+            if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.ShootBullet();
+            }
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
@@ -122,10 +126,6 @@ namespace SpaceInvaders.Model
             if (args.VirtualKey == VirtualKey.Right || sender.GetAsyncKeyState(VirtualKey.Right) == CoreVirtualKeyStates.Down)
             {
                 this.playerManager.MovePlayer(Direction.Right);
-            }
-            if (args.VirtualKey == VirtualKey.Space || sender.GetAsyncKeyState(VirtualKey.Space).Equals(CoreVirtualKeyStates.Down))
-            {
-                this.playerManager.ShootBullet();
             }
         }
 

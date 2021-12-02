@@ -134,6 +134,7 @@
     <Compile Include="Model\GameManager.cs" />
     <Compile Include="Model\GameObject.cs" />
     <Compile Include="Model\IShoot.cs" />
+    <Compile Include="Model\LeaderBoard.cs" />
     <Compile Include="Model\Level.cs" />
     <Compile Include="Model\LevelChangeEventArgs.cs" />
     <Compile Include="Model\PlayerManager.cs" />
@@ -141,6 +142,14 @@
     <Compile Include="Model\HealthUpdateArgs.cs" />
     <Compile Include="Model\ScoreUpdateArgs.cs" />
     <Compile Include="Model\SoundManager.cs" />
+    <Compile Include="Model\User.cs" />
+    <Compile Include="ViewModel\LeaderBoardViewModel.cs" />
+    <Compile Include="View\EndGamePage.xaml.cs">
+      <DependentUpon>EndGamePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\LeaderBoardControl.xaml.cs">
+      <DependentUpon>LeaderBoardControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -209,6 +218,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\EndGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\LeaderBoardControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

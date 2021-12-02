@@ -96,7 +96,8 @@ namespace SpaceInvaders.View
         {
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Lose!";
-            
+            this.Frame.Navigate(typeof(EndGamePage));
+
         }
 
         private void onScoreUpdate(object sender, ScoreUpdateArgs e)

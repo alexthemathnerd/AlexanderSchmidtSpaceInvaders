@@ -12,15 +12,15 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using SpaceInvaders.Model;
+using SpaceInvaders.Model.Enemies;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace SpaceInvaders.View.Sprites
+namespace SpaceInvaders.View
 {
-    public sealed partial class PowerUpSprite : BaseSprite
+    public sealed partial class LeaderBoardControl : UserControl
     {
-        public PowerUpSprite()
+        public LeaderBoardControl()
         {
             this.InitializeComponent();
         }
