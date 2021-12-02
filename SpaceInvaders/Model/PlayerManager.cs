@@ -13,10 +13,15 @@ namespace SpaceInvaders.Model
 
         private const double PlayerShipBottomOffset = 30;
         private const long ShootCooldown = 500;
+        private const int powerUpLength = 5;
 
         private readonly Canvas canvas;
+        
         private PlayerShip player;
         private DateTime lastShotFired;
+
+        public int maxBulletsFireable = 6;
+        private DateTime PowerupStart;
         
 
         /// <summary>
@@ -34,6 +39,7 @@ namespace SpaceInvaders.Model
         /// The player health.
         /// </value>
         public int PlayerHealth { get; private set; }
+
 
         /// <summary>
         /// Occurs when [enemy bullet collide event].
@@ -95,7 +101,12 @@ namespace SpaceInvaders.Model
         /// </summary>
         public void ShootBullet()
         {
-            if (this.Bullets.Count < 3 && DateTime.Now.Subtract(this.lastShotFired).Milliseconds > ShootCooldown)
+            if (DateTime.Now.Subtract(this.PowerupStart).Seconds > powerUpLength)
+            {
+                this.maxBulletsFireable = 3;
+            }
+
+            if (this.Bullets.Count < this.maxBulletsFireable && DateTime.Now.Subtract(this.lastShotFired).Milliseconds > ShootCooldown)
             {
                 SoundManager.Play(SoundEffectsEnum.PlayerFire);
                 this.lastShotFired = DateTime.Now;
@@ -104,6 +115,7 @@ namespace SpaceInvaders.Model
                 this.canvas.Children.Add(bullet.Sprite);
 
             }
+            
         }
 
         /// <summary>
@@ -152,6 +164,12 @@ namespace SpaceInvaders.Model
             {
                 this.player.MoveRight();
             }
+        }
+
+        public void PowerUp()
+        {
+            this.maxBulletsFireable *= 2;
+            this.PowerupStart = DateTime.Now;
         }
 
     }

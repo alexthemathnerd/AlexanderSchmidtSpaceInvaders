@@ -12,15 +12,14 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using SpaceInvaders.Model;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace SpaceInvaders.View.Sprites
 {
-    public sealed partial class PowerUpSprite : BaseSprite
+    public sealed partial class SpecialShipSprite
     {
-        public PowerUpSprite()
+        public SpecialShipSprite()
         {
             this.InitializeComponent();
         }

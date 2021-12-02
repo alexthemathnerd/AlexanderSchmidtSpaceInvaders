@@ -7,7 +7,7 @@
     /// <seealso cref="SpaceInvaders.Model.GameObject" />
     public abstract class EnemyShip : GameObject
     {
-        private const int MaxStep = 10; 
+        public  int MaxStep = 10; 
         private int stepsTraveled;
 
         /// <summary>
@@ -72,7 +72,7 @@
         /// <summary>
         /// Moves this Enemy;
         /// </summary>
-        public void Move()
+        public virtual void Move()
         {
             if (this.ShouldGoLeft)
             {
