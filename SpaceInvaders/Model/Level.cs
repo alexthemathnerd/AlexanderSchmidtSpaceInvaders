@@ -11,7 +11,7 @@ namespace SpaceInvaders.Model
     {
         public IList<Type> TypeByRow { get; set; }
         public IList<int> AmountByRow { get; set; }
-
+        public IList<double> VarianceByRow { get; set; }
 
         public static Level GetLevel(int number)
         {
@@ -19,14 +19,16 @@ namespace SpaceInvaders.Model
             {
                 return new Level {
                     TypeByRow = new List<Type>() { typeof(AdvancedAlienShip), typeof(AlienShip), typeof(AlienShip) },
-                    AmountByRow = new List<int>() { 5, 5, 3}
+                    AmountByRow = new List<int>() { 5, 5, 3},
+                    VarianceByRow = new List<double>() { 1, 1, 1}
                 };
             } else if (number == 2)
             {
                 return new Level
                 {
                     TypeByRow = new List<Type>() { typeof(MotherShip), typeof(AdvancedAlienShip), typeof(AlienShip) },
-                    AmountByRow = new List<int>() { 2, 5, 5 }
+                    AmountByRow = new List<int>() { 2, 5, 5 },
+                    VarianceByRow = new List<double>() { 1, 2, 3 }
                 };
             }
             else
@@ -34,7 +36,8 @@ namespace SpaceInvaders.Model
                 return new Level
                 {
                     TypeByRow = new List<Type>() { typeof(PlanetShip), typeof(MotherShip), typeof(AdvancedAlienShip), typeof(AlienShip) },
-                    AmountByRow = new List<int>() { 3, 4, 5, 5 }
+                    AmountByRow = new List<int>() { 3, 4, 5, 5 },
+                    VarianceByRow = new List<double>() { 1, 2, 3, 4 }
                 };
             }
         }

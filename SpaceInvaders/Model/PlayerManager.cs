@@ -13,12 +13,14 @@ namespace SpaceInvaders.Model
 
         private const double PlayerShipBottomOffset = 30;
         private const long ShootCooldown = 500;
+        private const int powerUpLength = 5;
 
         private readonly Canvas canvas;
+        
         private PlayerShip player;
         private DateTime lastShotFired;
 
-        public int maxBulletsFireable = 3;
+        public int maxBulletsFireable = 6;
         private DateTime PowerupStart;
         
 
@@ -99,12 +101,12 @@ namespace SpaceInvaders.Model
         /// </summary>
         public void ShootBullet()
         {
-            if (DateTime.Now.Subtract(this.PowerupStart).Seconds > 5)
+            if (DateTime.Now.Subtract(this.PowerupStart).Seconds > powerUpLength)
             {
                 this.maxBulletsFireable = 3;
             }
 
-            if (this.Bullets.Count < maxBulletsFireable && DateTime.Now.Subtract(this.lastShotFired).Milliseconds > ShootCooldown)
+            if (this.Bullets.Count < this.maxBulletsFireable && DateTime.Now.Subtract(this.lastShotFired).Milliseconds > ShootCooldown)
             {
                 SoundManager.Play(SoundEffectsEnum.PlayerFire);
                 this.lastShotFired = DateTime.Now;
@@ -166,7 +168,7 @@ namespace SpaceInvaders.Model
 
         public void PowerUp()
         {
-            this.maxBulletsFireable = 5;
+            this.maxBulletsFireable *= 2;
             this.PowerupStart = DateTime.Now;
         }
 

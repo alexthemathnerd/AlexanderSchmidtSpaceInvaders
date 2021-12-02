@@ -36,7 +36,7 @@ namespace SpaceInvaders.Model.Enemies
         /// <param name="amount">The amount of enemies on the row</param>
         /// <param name="row">The row to be added to</param>
         /// <returns>A list of enemies in the row</returns>
-        public static IList<EnemyShip> BuildRow(Canvas canvas, Type type, int amount, int row)
+        public static IList<EnemyShip> BuildRow(Canvas canvas, Type type, int amount, double variance, int row)
         {
             var yPos = EnemyGap * row + EnemyWidth * (row - 1);
             var prevX = (int)((canvas.Width - (EnemyWidth * amount + EnemyGap * (amount - 1))) / 2);
@@ -44,6 +44,7 @@ namespace SpaceInvaders.Model.Enemies
             for (var i = 0; i < amount; i++)
             {
                 var enemy = BuildEnemy(type, prevX, yPos);
+                enemy.MaxStep = (int)(enemy.MaxStep * variance);
                 enemies.Add(enemy);
                 canvas.Children.Add(enemy.Sprite);
                 prevX += EnemyWidth + EnemyGap;
@@ -57,7 +58,7 @@ namespace SpaceInvaders.Model.Enemies
             var enemies = new List<EnemyShip>();
             for (int i = 0; i < level.TypeByRow.Count; i++)
             {
-                enemies.AddRange(BuildRow(canvas, level.TypeByRow[i], level.AmountByRow[i], i + 1));
+                enemies.AddRange(BuildRow(canvas, level.TypeByRow[i], level.AmountByRow[i], level.VarianceByRow[i] ,  i + 1));
             }
 
             return enemies;

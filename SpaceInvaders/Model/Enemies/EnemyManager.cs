@@ -1,6 +1,7 @@
 ﻿using SpaceInvaders.View.Sprites;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
@@ -23,7 +24,7 @@ namespace SpaceInvaders.Model.Enemies
 
         private readonly List<EnemyShip> enemies;
         private readonly Canvas canvas;
-        
+
         #endregion
 
         #region Properties
@@ -46,7 +47,7 @@ namespace SpaceInvaders.Model.Enemies
         /// </summary>
         public event EventHandler<CollisionEventArgs> PlayerBulletCollideEvent;
 
-        private bool hasSpecialShip { get; set; } = false;
+        public bool hasSpecialShip { get; set; } = false;
 
         #endregion
 
@@ -84,8 +85,10 @@ namespace SpaceInvaders.Model.Enemies
         public void MoveEnemies()
         {
             foreach (var aEnemy in this.enemies)
-            { 
-               aEnemy.Move(); 
+            {
+                aEnemy.Move();
+
+                Debug.WriteLine(aEnemy.MaxStep);
             }
         }
 
@@ -106,7 +109,7 @@ namespace SpaceInvaders.Model.Enemies
                         SoundManager.Play(SoundEffectsEnum.EnemyFire);
                         this.Bullets.Add(bullet);
                         this.canvas.Children.Add(bullet.Sprite);
-                        
+
                     }
                 }
             }
@@ -170,11 +173,11 @@ namespace SpaceInvaders.Model.Enemies
             {
                 SoundManager.Play(SoundEffectsEnum.EnemyDestroyed);
                 this.enemies.Remove(shipToRemove);
-                this.spawnSpecialShip();
+                /*this.spawnSpecialShip();*/
             }
-            
+
         }
-         
+
         public void spawnSpecialShip()
         {
             var random = new Random();
@@ -188,9 +191,9 @@ namespace SpaceInvaders.Model.Enemies
                 this.hasSpecialShip = true;
 
                 ((SpecialShip)specialShip).LeavesScreenEvent += removeSpecialShipWhenOffScreen;
-                
+
             }
-                
+
         }
 
         private void removeSpecialShipWhenOffScreen(object sender, EventArgs e)

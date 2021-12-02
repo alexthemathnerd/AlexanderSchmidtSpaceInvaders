@@ -136,6 +136,7 @@ namespace SpaceInvaders.Model
             if (sender is SpecialShip)
             {
                 this.playerManager.PowerUp();
+                this.enemyManager.hasSpecialShip = false;
             }
 
             EnemyShip ship = (EnemyShip)sender;
