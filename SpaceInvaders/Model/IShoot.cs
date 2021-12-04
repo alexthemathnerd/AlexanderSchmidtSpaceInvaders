@@ -9,7 +9,7 @@
         /// Creates a Bullet
         /// </summary>
         /// <returns>the bullet created</returns>
-        Bullet Shoot();
+       Bullet Shoot();
 
     }
 }

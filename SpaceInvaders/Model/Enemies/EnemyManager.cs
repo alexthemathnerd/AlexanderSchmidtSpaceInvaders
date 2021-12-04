@@ -17,8 +17,7 @@ namespace SpaceInvaders.Model.Enemies
         private const int AdvancedAlienShipCount = 6;
         private const int MotherShipCount = 4;
         private const int PlanetShipCount = 2;
-        private const int SpecialShipStartingY = 2;
-        private const int SpecialShipStartingX = -2;
+        
 
         private const int EnemiesBulletCap = 3;
 
@@ -84,11 +83,9 @@ namespace SpaceInvaders.Model.Enemies
         /// </summary>
         public void MoveEnemies()
         {
-            foreach (var aEnemy in this.enemies)
+            foreach (var aEnemy in new List<EnemyShip>(this.enemies))
             {
                 aEnemy.Move();
-
-                Debug.WriteLine(aEnemy.MaxStep);
             }
         }
 
@@ -97,13 +94,29 @@ namespace SpaceInvaders.Model.Enemies
         ///     Precondition: none
         ///     Postcondition: a bullet was shot or not. It is random.
         /// </summary>
-        public void ShootBullets()
+        public void ShootBullets(GameObject player)
         {
             foreach (var aEnemy in this.enemies)
             {
                 if (aEnemy is IShoot iShootEnemy && this.Bullets.Count < EnemiesBulletCap)
                 {
-                    var bullet = iShootEnemy.Shoot();
+                    Bullet bullet;
+                    switch (iShootEnemy)
+                    {
+                        case PlanetShip planetShip:
+                            planetShip.playerlocation = new double[] { player.X, player.Y };
+                            bullet = ((PlanetShip)iShootEnemy).Shoot();
+                            break;
+
+                       case SpecialShip specialShip:
+                            specialShip.playerlocation = new double[] { player.X, player.Y };
+                            bullet = ((SpecialShip)iShootEnemy).Shoot();
+                            break;
+
+                        default:
+                            bullet = iShootEnemy.Shoot();
+                            break;
+                    }
                     if (bullet != null)
                     {
                         SoundManager.Play(SoundEffectsEnum.EnemyFire);
@@ -138,7 +151,7 @@ namespace SpaceInvaders.Model.Enemies
         {
             foreach (var aBullet in new List<Bullet>(this.Bullets))
             {
-                aBullet.MoveDown();
+                aBullet.Move();
                 if (aBullet.Y > this.canvas.Height)
                 {
                     this.canvas.Children.Remove(aBullet.Sprite);
@@ -173,34 +186,33 @@ namespace SpaceInvaders.Model.Enemies
             {
                 SoundManager.Play(SoundEffectsEnum.EnemyDestroyed);
                 this.enemies.Remove(shipToRemove);
-                /*this.spawnSpecialShip();*/
+                this.spawnSpecialShip();
             }
 
         }
 
         public void spawnSpecialShip()
         {
-            var random = new Random();
-            bool spawnIn = true;
-            if (!hasSpecialShip && spawnIn)
+            if (!hasSpecialShip && SpecialShip.Spawn())
             {
-                var specialShip = EnemyBuilder.BuildEnemy(typeof(SpecialShip), SpecialShipStartingX, SpecialShipStartingY);
+                SoundManager.Play(SoundEffectsEnum.SpecialShip);
+                var specialShip = EnemyBuilder.BuildEnemy(typeof(SpecialShip), SpecialShip.SpecialShipStartingX, SpecialShip.SpecialShipStartingY);
                 this.enemies.Add(specialShip);
                 this.canvas.Children.Add(specialShip.Sprite);
 
-                this.hasSpecialShip = true;
+                 this.hasSpecialShip = true;
 
-                ((SpecialShip)specialShip).LeavesScreenEvent += removeSpecialShipWhenOffScreen;
-
+                  ((SpecialShip)specialShip).LeavesScreenEvent += removeSpecialShipWhenOffScreen;
+                
             }
-
         }
 
         private void removeSpecialShipWhenOffScreen(object sender, EventArgs e)
         {
+            /*SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             this.enemies.Remove((EnemyShip)sender);
             this.canvas.Children.Remove(((EnemyShip)sender).Sprite);
-            this.hasSpecialShip = false;
+            this.hasSpecialShip = false;*/
 
         }
         #endregion

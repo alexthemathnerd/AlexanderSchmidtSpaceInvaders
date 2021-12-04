@@ -1,4 +1,5 @@
 ﻿using SpaceInvaders.View.Sprites;
+using System;
 
 namespace SpaceInvaders.Model.Enemies
 {
@@ -6,11 +7,13 @@ namespace SpaceInvaders.Model.Enemies
     /// Handles the Planet Ship
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.MotherShip" />
-    public class PlanetShip : MotherShip
+    public class PlanetShip : MotherShip, IShoot
     {
         private const int TurnCap = 5;
         private int turnCount;
         private bool shouldGoOut;
+        public double[] playerlocation;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlanetShip"/> class.
@@ -21,6 +24,22 @@ namespace SpaceInvaders.Model.Enemies
             this.Sprite = new PlanetShipSprite();
             this.turnCount = 0;
             this.shouldGoOut = true;
+        }
+
+
+        /// <summary>
+        /// Makes the PlanetShip Shoot
+        /// </summary>
+        public override Bullet Shoot()
+        {
+            Random rand = new Random();
+            int doShoot = rand.Next(100);
+            if (doShoot < ChanceToShoot)
+            {
+                return new Bullet(this,playerlocation);
+            }
+
+            return null;
         }
 
         /// <summary>

@@ -17,7 +17,7 @@ namespace SpaceInvaders.Model
 
         private readonly Canvas canvas;
         
-        private PlayerShip player;
+        public PlayerShip player;
         private DateTime lastShotFired;
 
         public int maxBulletsFireable = 6;

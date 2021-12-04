@@ -149,6 +149,9 @@
     <Compile Include="Model\UserComparer\ScoreNameLevelCompartator.cs" />
     <Compile Include="Model\UserComparer\UserSort.cs" />
     <Compile Include="ViewModel\LeaderBoardViewModel.cs" />
+    <Compile Include="View\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\EndGamePage.xaml.cs">
       <DependentUpon>EndGamePage.xaml</DependentUpon>
     </Compile>
@@ -203,10 +206,16 @@
     <Content Include="Assets\SoundEffects\Player_Fire.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\SoundEffects\SpecialShip.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\SoundEffects\You_Lose.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\SoundEffects\You_Win.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\StartPageVideo.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\Default.rd.xml" />
@@ -223,6 +232,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\EndGamePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
