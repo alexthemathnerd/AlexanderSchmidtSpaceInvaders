@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceInvaders.Model.UserComparer
 {
+    /// <summary>
+    /// A Comparer for Users base off of Level then Score then Name.
+    /// </summary>
     public class LevelScoreNameComparer : IComparer<User>
     {
         public int Compare(User user1, User user2)
@@ -29,7 +28,7 @@ namespace SpaceInvaders.Model.UserComparer
             {
                 return -1 * user1.Score.CompareTo(user2.Score);
             }
-            return user1.Name.CompareTo(user2.Name);
+            return String.Compare(user1.Name, user2.Name, StringComparison.Ordinal);
         }
     }
 }

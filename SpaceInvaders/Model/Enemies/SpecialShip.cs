@@ -4,13 +4,25 @@ using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
 {
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <seealso cref="SpaceInvaders.Model.Enemies.EnemyShip" />
+    /// <seealso cref="SpaceInvaders.Model.IShoot" />
     public class SpecialShip : EnemyShip, IShoot
     {
         private const double ChanceToShoot = 1;
         public const int SpecialShipStartingY = 2;
         public const int SpecialShipStartingX = -100;
 
-        public double[] playerlocation;
+        /// <summary>
+        /// Gets or sets the player location.
+        /// </summary>
+        /// <value>
+        /// The player location.
+        /// </value>
+        public double[] PlayerLocation { get; set; }
 
         public event EventHandler LeavesScreenEvent;
 
@@ -26,7 +38,7 @@ namespace SpaceInvaders.Model.Enemies
             int doShoot = rand.Next(100);
             if (doShoot < ChanceToShoot)
             {
-                return new Bullet(this, this.playerlocation);
+                return new Bullet(this, this.PlayerLocation);
             }
             return null;
 

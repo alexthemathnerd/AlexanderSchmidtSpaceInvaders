@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model
@@ -13,16 +12,19 @@ namespace SpaceInvaders.Model
 
         private const double PlayerShipBottomOffset = 30;
         private const long ShootCooldown = 500;
-        private const int powerUpLength = 5;
-
+        private const int PowerUpLength = 5;
         private readonly Canvas canvas;
-        
-        public PlayerShip player;
         private DateTime lastShotFired;
+        private int maxBulletsFireable = 6;
+        private DateTime powerupStart;
 
-        public int maxBulletsFireable = 6;
-        private DateTime PowerupStart;
-        
+        /// <summary>
+        /// Gets the player.
+        /// </summary>
+        /// <value>
+        /// The player.
+        /// </value>
+        public PlayerShip Player { get; private set; }
 
         /// <summary>
         /// Gets the bullets.
@@ -56,25 +58,29 @@ namespace SpaceInvaders.Model
             this.Bullets = new List<Bullet>();
             this.lastShotFired = DateTime.MinValue; 
             this.PlayerHealth = 3;
-            this.initialize();
         }
 
-        private void initialize()
+        /// <summary>
+        /// Initializes this instance.
+        /// </summary>
+        public void Initialize()
         {
+            this.Bullets.Clear();
             this.createAndPlacePlayerShip();
         }
 
         private void createAndPlacePlayerShip()
         {
-            this.player = new PlayerShip();
-            this.canvas.Children.Add(this.player.Sprite);
+            this.canvas.Children.Remove(this.Player?.Sprite);
+            this.Player = new PlayerShip();
+            this.canvas.Children.Add(this.Player.Sprite);
             this.placePlayerShipNearBottomOfBackgroundCentered();
         }
 
         private void placePlayerShipNearBottomOfBackgroundCentered()
         {
-            this.player.X = this.canvas.Width / 2 - this.player.Width / 2.0;
-            this.player.Y = this.canvas.Height - this.player.Height - PlayerShipBottomOffset;
+            this.Player.X = this.canvas.Width / 2 - this.Player.Width / 2.0;
+            this.Player.Y = this.canvas.Height - this.Player.Height - PlayerShipBottomOffset;
         }
 
         /// <summary>
@@ -85,14 +91,14 @@ namespace SpaceInvaders.Model
         {
             var x1 = bullet.X + bullet.Width / 2;
             var y1 = bullet.Y + bullet.Height / 2;
-            var x2 = this.player.X + this.player.Width / 2;
-            var y2 = this.player.Y + this.player.Height / 2;
+            var x2 = this.Player.X + this.Player.Width / 2;
+            var y2 = this.Player.Y + this.Player.Height / 2;
             var distance = DistanceCalculator.CalculateDistance(x1, y1, x2, y2);
-            if (distance < (bullet.Width + this.player.Width) / 2)
+            if (distance < (bullet.Width + this.Player.Width) / 2)
             {
                 SoundManager.Play(SoundEffectsEnum.PlayerDestroyed);
                 this.PlayerHealth--;
-                this.EnemyBulletCollideEvent?.Invoke(this.player, new CollisionEventArgs(bullet));
+                this.EnemyBulletCollideEvent?.Invoke(this.Player, new CollisionEventArgs(bullet));
             }
         }
 
@@ -101,7 +107,7 @@ namespace SpaceInvaders.Model
         /// </summary>
         public void ShootBullet()
         {
-            if (DateTime.Now.Subtract(this.PowerupStart).Seconds > powerUpLength)
+            if (DateTime.Now.Subtract(this.powerupStart).Seconds > PowerUpLength)
             {
                 this.maxBulletsFireable = 3;
             }
@@ -110,7 +116,7 @@ namespace SpaceInvaders.Model
             {
                 SoundManager.Play(SoundEffectsEnum.PlayerFire);
                 this.lastShotFired = DateTime.Now;
-                var bullet = new Bullet(this.player);
+                var bullet = new Bullet(this.Player);
                 this.Bullets.Add(bullet);
                 this.canvas.Children.Add(bullet.Sprite);
 
@@ -152,24 +158,27 @@ namespace SpaceInvaders.Model
 
         private void movePlayerToLeft()
         {
-            if (this.player.X >= 0)
+            if (this.Player.X >= 0)
             {
-                this.player.MoveLeft();
+                this.Player.MoveLeft();
             }
         }
 
         private void movePlayerToRight()
         {
-            if (this.player.X <= this.canvas.Width - this.player.Width)
+            if (this.Player.X <= this.canvas.Width - this.Player.Width)
             {
-                this.player.MoveRight();
+                this.Player.MoveRight();
             }
         }
 
+        /// <summary>
+        /// Powers up the player.
+        /// </summary>
         public void PowerUp()
         {
             this.maxBulletsFireable *= 2;
-            this.PowerupStart = DateTime.Now;
+            this.powerupStart = DateTime.Now;
         }
 
     }

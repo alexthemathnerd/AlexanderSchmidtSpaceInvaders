@@ -7,7 +7,7 @@
     /// <seealso cref="SpaceInvaders.Model.GameObject" />
     public abstract class EnemyShip : GameObject
     {
-        public  int MaxStep = 10; 
+        public int MaxStep = 10; 
         private int stepsTraveled;
 
         /// <summary>

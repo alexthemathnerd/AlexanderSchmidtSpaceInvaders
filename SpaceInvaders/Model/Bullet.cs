@@ -39,11 +39,16 @@ namespace SpaceInvaders.Model
             Y = this.Owner.Y + Height / 2;
         }
 
-        public Bullet(GameObject owner, double[] playerlocation)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bullet"/> class.
+        /// </summary>
+        /// <param name="owner">The owner.</param>
+        /// <param name="playerLocation">The player location.</param>
+        public Bullet(GameObject owner, double[] playerLocation)
         {
             this.Owner = owner;
             Sprite = new BulletSprite();
-            var trajectoryToTarget = this.trajectoryToTarget(playerlocation);
+            var trajectoryToTarget = this.trajectoryToTarget(playerLocation);
             SetSpeed(trajectoryToTarget[0], trajectoryToTarget[1]);
             X = this.Owner.X + this.Owner.Width / 2.0 - Width / 2;
             Y = this.Owner.Y + Height / 2;
@@ -70,6 +75,9 @@ namespace SpaceInvaders.Model
             return new[] { speedX, speedY };
         }
 
+        /// <summary>
+        /// Moves this instance.
+        /// </summary>
         public void Move()
         {
             if (this.Direction == Direction.Left)

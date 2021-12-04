@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -15,11 +16,26 @@ namespace SpaceInvaders.Model
     {
         #region Data members
 
-        private PlayerManager playerManager;
-        private EnemyManager enemyManager;
+        private readonly PlayerManager playerManager;
+        private readonly EnemyManager enemyManager;
+        private readonly ShieldManager shieldManager;
+
         private readonly Canvas canvas;
 
+        /// <summary>
+        /// Gets the score.
+        /// </summary>
+        /// <value>
+        /// The score.
+        /// </value>
         public int Score { get; private set; }
+
+        /// <summary>
+        /// Gets the current level.
+        /// </summary>
+        /// <value>
+        /// The current level.
+        /// </value>
         public int CurrentLevel { get; private set; }
 
         #endregion
@@ -35,17 +51,15 @@ namespace SpaceInvaders.Model
         {
             this.canvas = canvas;
             this.Score = 0;
-            this.CurrentLevel = 0;
+            this.CurrentLevel = 1;
+            this.playerManager = new PlayerManager(this.canvas);
+            this.enemyManager = new EnemyManager(this.canvas);
+            this.shieldManager = new ShieldManager();
         }
 
         #endregion
 
         #region Methods
-
-        /// <summary>
-        ///     Occurs when [game over event].
-        /// </summary>
-        public event EventHandler GameOverEvent;
 
         /// <summary>
         ///     Occurs when [score update event].
@@ -57,6 +71,9 @@ namespace SpaceInvaders.Model
         /// </summary>
         public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
 
+        /// <summary>
+        /// Occurs when [level change event].
+        /// </summary>
         public event EventHandler<LevelChangeEventArgs> LevelChangeEvent;
 
         /// <summary>
@@ -66,12 +83,13 @@ namespace SpaceInvaders.Model
         /// </summary>
         public void InitializeGame()
         {
-            this.playerManager = new PlayerManager(this.canvas);
+            this.canvas.Children.Clear();
+            this.playerManager.Initialize();
             this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
-            this.enemyManager = new EnemyManager(this.canvas);
-            this.CurrentLevel = 1;
-            this.enemyManager.InitializeLevel(this.CurrentLevel);
+            this.enemyManager.Initialize(this.CurrentLevel);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
+            this.shieldManager.Initialize(this.canvas);
+            this.shieldManager.ShieldBulletCollideEvent += this.onShieldCollision;
         }
 
         /// <summary>
@@ -89,7 +107,7 @@ namespace SpaceInvaders.Model
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
-            this.enemyManager.ShootBullets(this.playerManager.player);
+            this.enemyManager.ShootBullets(this.playerManager.Player);
             this.enemyManager.MoveBullets();
             this.checkCollisions();
         }
@@ -99,17 +117,19 @@ namespace SpaceInvaders.Model
             foreach (var aEnemyBullet in new List<Bullet>(this.enemyManager.Bullets))
             {
                 this.playerManager.CheckCollision(aEnemyBullet);
+                this.shieldManager.CheckCollision(aEnemyBullet);
             }
 
             foreach (var aPlayerBullet in new List<Bullet>(this.playerManager.Bullets))
             {
                 this.enemyManager.CheckCollision(aPlayerBullet);
+                this.shieldManager.CheckCollision(aPlayerBullet);
             }
 
             if (!this.enemyManager.HasMoreEnemies)
             {
                 this.CurrentLevel++;
-                this.enemyManager.InitializeLevel(this.CurrentLevel);
+                Debug.WriteLine(this.CurrentLevel);
                 this.LevelChangeEvent?.Invoke(this, new LevelChangeEventArgs(this.CurrentLevel));
             }
         }
@@ -139,7 +159,7 @@ namespace SpaceInvaders.Model
             if (sender is SpecialShip)
             {
                 this.playerManager.PowerUp();
-                this.enemyManager.hasSpecialShip = false;
+                this.enemyManager.HasSpecialShip = false;
                 SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             }
 
@@ -151,6 +171,18 @@ namespace SpaceInvaders.Model
             this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.Score));
 
             
+        }
+
+        private void onShieldCollision(object sender, CollisionEventArgs e)
+        {
+            var shield = (Shield)sender;
+            if (shield.State == 0)
+            {
+                this.canvas.Children.Remove(shield.Sprite);
+            }
+            this.canvas.Children.Remove(e.Bullet.Sprite);
+            this.playerManager.Bullets.Remove(e.Bullet);
+            this.enemyManager.Bullets.Remove(e.Bullet);
         }
 
         private void onPlayerCollision(object sender, CollisionEventArgs e)

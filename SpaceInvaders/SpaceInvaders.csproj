@@ -142,6 +142,8 @@
     <Compile Include="Model\PlayerShip.cs" />
     <Compile Include="Model\HealthUpdateArgs.cs" />
     <Compile Include="Model\ScoreUpdateArgs.cs" />
+    <Compile Include="Model\Shield.cs" />
+    <Compile Include="Model\ShieldManager.cs" />
     <Compile Include="Model\SoundManager.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Model\UserComparer\LevelScoreNameCompartator.cs" />
@@ -149,6 +151,9 @@
     <Compile Include="Model\UserComparer\ScoreNameLevelCompartator.cs" />
     <Compile Include="Model\UserComparer\UserSort.cs" />
     <Compile Include="ViewModel\LeaderBoardViewModel.cs" />
+    <Compile Include="View\Sprites\ShieldSprite.xaml.cs">
+      <DependentUpon>ShieldSprite.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\LeaderBoardContentDialog.xaml.cs">
       <DependentUpon>LeaderBoardContentDialog.xaml</DependentUpon>
     </Compile>
@@ -238,6 +243,10 @@
     <Page Include="View\LeaderBoardContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Sprites\ShieldSprite.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\StartPage.xaml">
       <SubType>Designer</SubType>

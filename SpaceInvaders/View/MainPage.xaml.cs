@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using Windows.Foundation;
-using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using SpaceInvaders.Model;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace SpaceInvaders.View
 {
@@ -68,18 +64,18 @@ namespace SpaceInvaders.View
 
         private void onLevelChange(object sender, LevelChangeEventArgs e)
         {
-            Debug.WriteLine("LEVEL UP!");
+            var gameManager = (GameManager)sender;
             if (e.NewLevel > 3)
             {
                 this.timer.Stop();
                 this.gameSummary.Text = "Game Over. You Win!";
-                var gameManager = (GameManager)sender;
-                this.Frame.Navigate(typeof(EndGamePage), new int[] { gameManager.Score, gameManager.CurrentLevel - 1});
-                SoundManager.Play(SoundEffectsEnum.Win);
+                
+                this.Frame.Navigate(typeof(EndGamePage), new [] { gameManager.Score, gameManager.CurrentLevel - 1});
             }
             else
             {
                 this.gameSummary.Text = $"Level: {e.NewLevel}";
+                gameManager.InitializeGame();
             }
         }
 
@@ -93,7 +89,7 @@ namespace SpaceInvaders.View
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Lose!";
             var gameManager = (GameManager)sender;
-            this.Frame.Navigate(typeof(EndGamePage), new int[] {gameManager.Score, gameManager.CurrentLevel - 1});
+            this.Frame.Navigate(typeof(EndGamePage), new [] {gameManager.Score, gameManager.CurrentLevel - 1});
 
         }
 

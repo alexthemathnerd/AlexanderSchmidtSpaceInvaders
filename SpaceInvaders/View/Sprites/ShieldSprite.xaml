@@ -1,20 +1,21 @@
 ﻿<local:BaseSprite
-    x:Class="SpaceInvaders.View.Sprites.AdvancedAlienShipSprite"
+    x:Class="SpaceInvaders.View.Sprites.ShieldSprite"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SpaceInvaders.View.Sprites"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="64"
+    d:DesignHeight="20"
     d:DesignWidth="64"
-    Height="64"
+    Height="32"
     Width="64">
 
-    <Canvas>
-        <local:AlienShipSprite></local:AlienShipSprite>
-        <Rectangle x:Name="leftArm" Width="4" Height="22" Fill="Crimson" Canvas.Left="7" Canvas.Top="10"/>
-        <Rectangle x:Name="rightArm" Width="4" Height="22" Fill="Crimson" Canvas.Left="53" Canvas.Top="10"/>
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ShieldColor" Color="LightBlue"/>
+    </UserControl.Resources>
 
+    <Canvas>
+        <Rectangle Width="64" Height="20" Fill="{StaticResource ShieldColor}"></Rectangle>
     </Canvas>
 </local:BaseSprite>

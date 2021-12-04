@@ -1,7 +1,5 @@
-﻿using SpaceInvaders.View.Sprites;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
@@ -46,7 +44,13 @@ namespace SpaceInvaders.Model.Enemies
         /// </summary>
         public event EventHandler<CollisionEventArgs> PlayerBulletCollideEvent;
 
-        public bool hasSpecialShip { get; set; } = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance has special ship.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance has special ship; otherwise, <c>false</c>.
+        /// </value>
+        public bool HasSpecialShip { get; set; }
 
         #endregion
 
@@ -71,7 +75,7 @@ namespace SpaceInvaders.Model.Enemies
         ///     Initializes the enemies.
         /// </summary>
         /// <param name="levelNumber">The current level to initialize</param>
-        public void InitializeLevel(int levelNumber)
+        public void Initialize(int levelNumber)
         {
             this.enemies.Clear();
             this.Bullets.Clear();
@@ -102,17 +106,15 @@ namespace SpaceInvaders.Model.Enemies
                 {
                     Bullet bullet;
                     switch (iShootEnemy)
-                    {
+                    { 
                         case PlanetShip planetShip:
-                            planetShip.playerlocation = new double[] { player.X, player.Y };
+                            planetShip.PlayerLocation = new [] { player.X, player.Y };
                             bullet = ((PlanetShip)iShootEnemy).Shoot();
                             break;
-
-                       case SpecialShip specialShip:
-                            specialShip.playerlocation = new double[] { player.X, player.Y };
+                        case SpecialShip specialShip:
+                            specialShip.PlayerLocation = new [] { player.X, player.Y };
                             bullet = ((SpecialShip)iShootEnemy).Shoot();
                             break;
-
                         default:
                             bullet = iShootEnemy.Shoot();
                             break;
@@ -191,16 +193,17 @@ namespace SpaceInvaders.Model.Enemies
 
         }
 
-        public void spawnSpecialShip()
+
+        private void spawnSpecialShip()
         {
-            if (!hasSpecialShip && SpecialShip.Spawn())
+            if (!HasSpecialShip && SpecialShip.Spawn())
             {
                 SoundManager.Play(SoundEffectsEnum.SpecialShip);
                 var specialShip = EnemyBuilder.BuildEnemy(typeof(SpecialShip), SpecialShip.SpecialShipStartingX, SpecialShip.SpecialShipStartingY);
                 this.enemies.Add(specialShip);
                 this.canvas.Children.Add(specialShip.Sprite);
 
-                 this.hasSpecialShip = true;
+                 this.HasSpecialShip = true;
 
                   ((SpecialShip)specialShip).LeavesScreenEvent += this.removeSpecialShipWhenOffScreen;
                 
@@ -212,7 +215,7 @@ namespace SpaceInvaders.Model.Enemies
             SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             this.enemies.Remove((EnemyShip)sender);
             this.canvas.Children.Remove(((EnemyShip)sender).Sprite);
-            this.hasSpecialShip = false;
+            this.HasSpecialShip = false;
 
         }
         #endregion
