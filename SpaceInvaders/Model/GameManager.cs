@@ -5,7 +5,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using SpaceInvaders.Model.Enemies;
-using System.Diagnostics;
 
 namespace SpaceInvaders.Model
 {
@@ -21,30 +20,14 @@ namespace SpaceInvaders.Model
         private readonly Canvas canvas;
         private int score;
         private int currentLevel;
-        /// <summary>
-        /// Occurs when [game over event].
-        /// </summary>
-        public event EventHandler GameOverEvent;
-
-        /// <summary>
-        /// Occurs when [score update event].
-        /// </summary>
-        public event EventHandler<ScoreUpdateArgs> ScoreUpdateEvent;
-
-        /// <summary>
-        /// Occurs when [health update event].
-        /// </summary>
-        public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
-
-        public event EventHandler<LevelChangeEventArgs> LevelChangeEvent;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GameManager" /> class.
-        /// Precondition: backgroundHeight &gt; 0 AND backgroundWidth &gt; 0
+        ///     Initializes a new instance of the <see cref="GameManager" /> class.
+        ///     Precondition: backgroundHeight &gt; 0 AND backgroundWidth &gt; 0
         /// </summary>
         /// <param name="canvas">The canvas.</param>
         public GameManager(Canvas canvas)
@@ -59,6 +42,23 @@ namespace SpaceInvaders.Model
         #region Methods
 
         /// <summary>
+        ///     Occurs when [game over event].
+        /// </summary>
+        public event EventHandler GameOverEvent;
+
+        /// <summary>
+        ///     Occurs when [score update event].
+        /// </summary>
+        public event EventHandler<ScoreUpdateArgs> ScoreUpdateEvent;
+
+        /// <summary>
+        ///     Occurs when [health update event].
+        /// </summary>
+        public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
+
+        public event EventHandler<LevelChangeEventArgs> LevelChangeEvent;
+
+        /// <summary>
         ///     Initializes the game placing player ship and enemy ship in the game.
         ///     Precondition: background != null
         ///     Postcondition: Game is initialized and ready for play.
@@ -71,11 +71,10 @@ namespace SpaceInvaders.Model
             this.currentLevel = 1;
             this.enemyManager.InitializeLevel(this.currentLevel);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
-
         }
 
         /// <summary>
-        /// Called when [tick].
+        ///     Called when [tick].
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The e.</param>
@@ -85,6 +84,7 @@ namespace SpaceInvaders.Model
             {
                 this.playerManager.ShootBullet();
             }
+
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
@@ -95,12 +95,12 @@ namespace SpaceInvaders.Model
 
         private void checkCollisions()
         {
-
             foreach (var aEnemyBullet in new List<Bullet>(this.enemyManager.Bullets))
             {
                 this.playerManager.CheckCollision(aEnemyBullet);
             }
-            foreach (var aPlayerBullet in new List<Bullet> (this.playerManager.Bullets))
+
+            foreach (var aPlayerBullet in new List<Bullet>(this.playerManager.Bullets))
             {
                 this.enemyManager.CheckCollision(aPlayerBullet);
             }
@@ -114,17 +114,20 @@ namespace SpaceInvaders.Model
         }
 
         /// <summary>
-        /// Called when [key down].
+        ///     Called when [key down].
         /// </summary>
         /// <param name="sender">The sender.</param>
-        /// <param name="args">The <see cref="KeyEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="KeyEventArgs" /> instance containing the event data.</param>
         public void OnKeyDown(CoreWindow sender, KeyEventArgs args)
         {
-            if (args.VirtualKey == VirtualKey.Left || sender.GetAsyncKeyState(VirtualKey.Left) == CoreVirtualKeyStates.Down)
+            if (args.VirtualKey == VirtualKey.Left ||
+                sender.GetAsyncKeyState(VirtualKey.Left) == CoreVirtualKeyStates.Down)
             {
                 this.playerManager.MovePlayer(Direction.Left);
             }
-            if (args.VirtualKey == VirtualKey.Right || sender.GetAsyncKeyState(VirtualKey.Right) == CoreVirtualKeyStates.Down)
+
+            if (args.VirtualKey == VirtualKey.Right ||
+                sender.GetAsyncKeyState(VirtualKey.Right) == CoreVirtualKeyStates.Down)
             {
                 this.playerManager.MovePlayer(Direction.Right);
             }
@@ -132,7 +135,6 @@ namespace SpaceInvaders.Model
 
         private void onEnemyCollision(object sender, CollisionEventArgs e)
         {
-
             if (sender is SpecialShip)
             {
                 this.playerManager.PowerUp();
@@ -140,20 +142,17 @@ namespace SpaceInvaders.Model
                 SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             }
 
-            EnemyShip ship = (EnemyShip)sender;
+            var ship = (EnemyShip)sender;
             this.canvas.Children.Remove(ship.Sprite);
             this.canvas.Children.Remove(e.Bullet.Sprite);
             this.playerManager.Bullets.Remove(e.Bullet);
             this.score += ship.Score;
             this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.score));
-
-            
         }
-
 
         private void onPlayerCollision(object sender, CollisionEventArgs e)
         {
-            PlayerShip ship = (PlayerShip)sender;
+            var ship = (PlayerShip)sender;
             this.canvas.Children.Remove(e.Bullet.Sprite);
             this.enemyManager.Bullets.Remove(e.Bullet);
             if (this.playerManager.PlayerHealth == 0)
@@ -170,7 +169,5 @@ namespace SpaceInvaders.Model
         }
 
         #endregion
-
-
     }
 }

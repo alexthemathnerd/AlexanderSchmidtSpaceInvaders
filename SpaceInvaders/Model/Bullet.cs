@@ -1,55 +1,64 @@
-﻿using SpaceInvaders.View.Sprites;
-using System;
+﻿using System;
 using Windows.UI.Xaml.Controls;
+using SpaceInvaders.View.Sprites;
 
 namespace SpaceInvaders.Model
 {
-
     /// <summary>
-    /// Represents a Bullet
+    ///     Represents a Bullet
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.GameObject" />
     public class Bullet : GameObject
     {
+        #region Properties
 
         /// <summary>
-        /// Gets the owner.
+        ///     Gets the owner.
         /// </summary>
         /// <value>
-        /// The owner.
+        ///     The owner.
         /// </value>
         public GameObject Owner { get; }
-        public Direction Direction { get; set; } 
+
+        public Direction Direction { get; set; }
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Bullet"/> class.
+        ///     Initializes a new instance of the <see cref="Bullet" /> class.
         /// </summary>
         /// <param name="owner">the owner of the bullet</param>
         public Bullet(GameObject owner)
         {
             this.Owner = owner;
-            this.SetSpeed(0, 5);
-            this.Sprite = new BulletSprite();
-            this.X = this.Owner.X + this.Owner.Width / 2.0 - this.Width / 2;
-            this.Y = this.Owner.Y + this.Height / 2;
+            SetSpeed(0, 5);
+            Sprite = new BulletSprite();
+            X = this.Owner.X + this.Owner.Width / 2.0 - Width / 2;
+            Y = this.Owner.Y + Height / 2;
         }
 
         public Bullet(GameObject owner, double[] playerlocation)
         {
             this.Owner = owner;
-            this.Sprite = new BulletSprite();
+            Sprite = new BulletSprite();
             var trajectoryToTarget = this.trajectoryToTarget(playerlocation);
-            this.SetSpeed(trajectoryToTarget[0], trajectoryToTarget[1]);
-            this.X = this.Owner.X + this.Owner.Width / 2.0 - this.Width / 2;
-            this.Y = this.Owner.Y + this.Height / 2;
+            SetSpeed(trajectoryToTarget[0], trajectoryToTarget[1]);
+            X = this.Owner.X + this.Owner.Width / 2.0 - Width / 2;
+            Y = this.Owner.Y + Height / 2;
         }
+
+        #endregion
+
+        #region Methods
 
         private int[] trajectoryToTarget(double[] playerlocation)
         {
-            int speedX = (int)Math.Abs((playerlocation[0] - Owner.X) / 100);
-            int speedY = (int)((playerlocation[1] - Owner.Y) / 100);
+            var speedX = (int)Math.Abs((playerlocation[0] - this.Owner.X) / 100);
+            var speedY = (int)((playerlocation[1] - this.Owner.Y) / 100);
 
-            if (Owner.X > ((Canvas)this.Owner.Sprite.Parent).Width/2)
+            if (this.Owner.X > ((Canvas)this.Owner.Sprite.Parent).Width / 2)
             {
                 this.Direction = Direction.Left;
             }
@@ -58,21 +67,23 @@ namespace SpaceInvaders.Model
                 this.Direction = Direction.Right;
             }
 
-            return new int[] {speedX,speedY};
+            return new[] { speedX, speedY };
         }
 
         public void Move()
         {
-          
-            if(this.Direction == Direction.Left)
+            if (this.Direction == Direction.Left)
             {
-                this.MoveLeft();
+                MoveLeft();
             }
             else
             {
-                this.MoveRight();
+                MoveRight();
             }
-            this.MoveDown();
+
+            MoveDown();
         }
+
+        #endregion
     }
 }

@@ -1,0 +1,29 @@
+﻿<Page
+    x:Class="SpaceInvaders.View.StartPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpaceInvaders"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="50" Width="482" Canvas.Left="509" Canvas.Top="840" >
+            <Button Content="Start Game" Height="65" Width="128" Click="OnClickStartGame" Background="#33FFFFFF"/>
+            <Button Content="Highscores" Height="65" Width="128" HorizontalAlignment="Center" Click="OnClickViewLeaderBoard"/>
+            <Button Content="Reset Highscores" Height="65" Width="128"/>
+        </StackPanel>
+        <MediaPlayerElement Grid.Row="1" x:Name="startPageVideo" Source="ms-appx:///Assets/StartPageVideo.mp4"
+                            Width="780" AutoPlay="True" AreTransportControlsEnabled="False" Canvas.Left="355" Canvas.Top="331"
+                            
+        ></MediaPlayerElement>
+
+        <TextBlock Height="123" TextWrapping="Wrap" Width="444" FontSize="48" TextAlignment="Center" FontWeight="Bold" Canvas.Left="509" Canvas.Top="180"><Run Text="Space Invaders"/><LineBreak/><Run Text="Team A"/></TextBlock>
+    </Grid>
+</Page>
