@@ -12,11 +12,6 @@ namespace SpaceInvaders.ViewModel
     /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
     public class LeaderBoardViewModel : INotifyPropertyChanged
     {
-        #region Data members
-
-        private readonly LeaderBoard leaderBoard;
-
-        #endregion
 
         #region Properties
 
@@ -45,8 +40,7 @@ namespace SpaceInvaders.ViewModel
         /// </summary>
         public LeaderBoardViewModel()
         {
-            this.leaderBoard = new LeaderBoard();
-            this.TopPlayers = new ObservableCollection<User>(this.leaderBoard.ReadTopPlayers());
+            this.TopPlayers = new ObservableCollection<User>(LeaderBoard.ReadTopPlayers());
             this.Sorts = new ObservableCollection<UserSort> {
                 new UserSort {
                     Name = "SCORE | NAME | LEVEL",
@@ -107,7 +101,7 @@ namespace SpaceInvaders.ViewModel
             }
 
             this.TopPlayers.Add(user);
-            this.leaderBoard.WriteTopPlayers(this.TopPlayers.ToList());
+            LeaderBoard.WriteTopPlayers(this.TopPlayers.ToList());
         }
 
         #endregion
