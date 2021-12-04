@@ -51,7 +51,8 @@ namespace SpaceInvaders.View
 
         private void Sort_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.viewModel.Sort((UserSort) this.sorts.SelectedItem);
+            var sort = this.sorts.SelectedItem ?? throw new ArgumentException();
+            this.viewModel.Sort((UserSort)sort);
         }
 
         private void PlayAgain_OnClick(object sender, RoutedEventArgs e)

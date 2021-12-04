@@ -2,6 +2,7 @@
 using Windows.Foundation;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Navigation;
 using SpaceInvaders.Model;
 
 namespace SpaceInvaders.View
@@ -24,6 +25,8 @@ namespace SpaceInvaders.View
         public const double ApplicationWidth = 1080;
         private readonly DispatcherTimer timer;
 
+        private int numberOfPlayers;
+        private GameManager gameManager;
         #endregion
 
         #region Constructors
@@ -40,15 +43,13 @@ namespace SpaceInvaders.View
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(ApplicationWidth, ApplicationHeight));
 
-            var gameManager = new GameManager(this.theCanvas);
-            gameManager.ScoreUpdateEvent += this.onScoreUpdate;
-            gameManager.GameOverEvent += this.onGameOver;
-            gameManager.LevelChangeEvent += this.onLevelChange;
-            gameManager.HealthUpdateEvent += this.onHealthUpdate;
-            gameManager.InitializeGame();
+            this.gameManager = new GameManager(this.theCanvas);
+            this.gameManager.ScoreUpdateEvent += this.onScoreUpdate;
+            this.gameManager.GameOverEvent += this.onGameOver;
+            this.gameManager.LevelChangeEvent += this.onLevelChange;
+            this.gameManager.HealthUpdateEvent += this.onHealthUpdate;
             this.scoreSummary.Text = "Score: 0";
             this.gameSummary.Text = "SPACE INVADERS!!!";
-            this.healthSummary.Text = "Health: 3";
 
             Window.Current.CoreWindow.KeyDown += gameManager.OnKeyDown;
 
@@ -75,7 +76,7 @@ namespace SpaceInvaders.View
             else
             {
                 this.gameSummary.Text = $"Level: {e.NewLevel}";
-                gameManager.InitializeGame();
+                gameManager.InitializeGame(this.numberOfPlayers);
             }
         }
 
@@ -87,7 +88,7 @@ namespace SpaceInvaders.View
         private void onGameOver(object sender, EventArgs e)
         {
             this.timer.Stop();
-            this.gameSummary.Text = "Game Over. You Lose!";
+
             var gameManager = (GameManager)sender;
             this.Frame.Navigate(typeof(EndGamePage), new [] {gameManager.Score, gameManager.CurrentLevel - 1});
 
@@ -96,6 +97,15 @@ namespace SpaceInvaders.View
         private void onScoreUpdate(object sender, ScoreUpdateArgs e)
         {
             this.scoreSummary.Text = $"Score: {e.NewScore}";
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            this.numberOfPlayers = (int) (e.Parameter ?? throw new ArgumentException());
+            this.gameManager.InitializeGame(this.numberOfPlayers);
+            var health = this.numberOfPlayers == 2 ? 6 : 3;
+            this.healthSummary.Text = $"Health: {health}";
+
         }
 
         #endregion

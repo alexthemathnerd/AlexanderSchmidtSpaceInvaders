@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -19,6 +20,7 @@ namespace SpaceInvaders.Model
         private readonly PlayerManager playerManager;
         private readonly EnemyManager enemyManager;
         private readonly ShieldManager shieldManager;
+        private int numberOfPlayers;
 
         private readonly Canvas canvas;
 
@@ -87,10 +89,11 @@ namespace SpaceInvaders.Model
         ///     Precondition: background != null
         ///     Postcondition: Game is initialized and ready for play.
         /// </summary>
-        public void InitializeGame()
+        public void InitializeGame(int player)
         {
+            this.numberOfPlayers = player;
             this.canvas.Children.Clear();
-            this.playerManager.Initialize();
+            this.playerManager.Initialize(numberOfPlayers);
             this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
             this.enemyManager.Initialize(this.CurrentLevel);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
@@ -105,15 +108,20 @@ namespace SpaceInvaders.Model
         /// <param name="e">The e.</param>
         public void OnTick(object sender, object e)
         {
-            if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Space) == CoreVirtualKeyStates.Down)
+            if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up) == CoreVirtualKeyStates.Down)
             {
-                this.playerManager.ShootBullet();
+                this.playerManager.ShootPlayer1Bullet();
+            }
+
+            if (this.numberOfPlayers == 2 && Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.W) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.ShootPlayer2Bullet();
             }
 
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
-            this.enemyManager.ShootBullets(this.playerManager.Player);
+            this.enemyManager.ShootBullets(this.playerManager.Player1, this.playerManager.Player2);
             this.enemyManager.MoveBullets();
             this.checkCollisions();
         }
@@ -126,7 +134,7 @@ namespace SpaceInvaders.Model
                 this.shieldManager.CheckCollision(aEnemyBullet);
             }
 
-            foreach (var aPlayerBullet in new List<Bullet>(this.playerManager.Bullets))
+            foreach (var aPlayerBullet in new List<Bullet>(this.playerManager.BulletsPlayer1.Union(this.playerManager.BulletsPlayer2)))
             {
                 this.enemyManager.CheckCollision(aPlayerBullet);
                 this.shieldManager.CheckCollision(aPlayerBullet);
@@ -150,13 +158,25 @@ namespace SpaceInvaders.Model
             if (args.VirtualKey == VirtualKey.Left ||
                 sender.GetAsyncKeyState(VirtualKey.Left) == CoreVirtualKeyStates.Down)
             {
-                this.playerManager.MovePlayer(Direction.Left);
+                this.playerManager.MovePlayer1(Direction.Left);
             }
 
             if (args.VirtualKey == VirtualKey.Right ||
                 sender.GetAsyncKeyState(VirtualKey.Right) == CoreVirtualKeyStates.Down)
             {
-                this.playerManager.MovePlayer(Direction.Right);
+                this.playerManager.MovePlayer1(Direction.Right);
+            }
+
+            if (this.numberOfPlayers == 2 && args.VirtualKey == VirtualKey.A ||
+                sender.GetAsyncKeyState(VirtualKey.A) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.MovePlayer2(Direction.Left);
+            }
+
+            if (this.numberOfPlayers == 2 && args.VirtualKey == VirtualKey.D ||
+                sender.GetAsyncKeyState(VirtualKey.D) == CoreVirtualKeyStates.Down)
+            {
+                this.playerManager.MovePlayer2(Direction.Right);
             }
         }
 
@@ -172,7 +192,8 @@ namespace SpaceInvaders.Model
             var ship = (EnemyShip)sender;
             this.canvas.Children.Remove(ship.Sprite);
             this.canvas.Children.Remove(e.Bullet.Sprite);
-            this.playerManager.Bullets.Remove(e.Bullet);
+            this.playerManager.BulletsPlayer1.Remove(e.Bullet);
+            this.playerManager.BulletsPlayer2.Remove(e.Bullet);
             this.Score += ship.Score;
             this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.Score));
 
@@ -187,7 +208,8 @@ namespace SpaceInvaders.Model
                 this.canvas.Children.Remove(shield.Sprite);
             }
             this.canvas.Children.Remove(e.Bullet.Sprite);
-            this.playerManager.Bullets.Remove(e.Bullet);
+            this.playerManager.BulletsPlayer1.Remove(e.Bullet);
+            this.playerManager.BulletsPlayer2.Remove(e.Bullet);
             this.enemyManager.Bullets.Remove(e.Bullet);
         }
 
@@ -196,16 +218,15 @@ namespace SpaceInvaders.Model
             var ship = (PlayerShip)sender;
             this.canvas.Children.Remove(e.Bullet.Sprite);
             this.enemyManager.Bullets.Remove(e.Bullet);
-            if (this.playerManager.PlayerHealth == 0)
+            if (this.playerManager.TotalHealth == 0)
             {
                 this.canvas.Children.Remove(ship.Sprite);
-                this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
                 this.GameOverEvent?.Invoke(this, EventArgs.Empty);
                 SoundManager.Play(SoundEffectsEnum.Lose);
             }
             else
             {
-                this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.PlayerHealth));
+                this.HealthUpdateEvent?.Invoke(this, new HealthUpdateArgs(this.playerManager.TotalHealth));
             }
         }
 
