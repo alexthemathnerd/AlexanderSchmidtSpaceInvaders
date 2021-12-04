@@ -202,17 +202,17 @@ namespace SpaceInvaders.Model.Enemies
 
                  this.hasSpecialShip = true;
 
-                  ((SpecialShip)specialShip).LeavesScreenEvent += removeSpecialShipWhenOffScreen;
+                  ((SpecialShip)specialShip).LeavesScreenEvent += this.removeSpecialShipWhenOffScreen;
                 
             }
         }
 
         private void removeSpecialShipWhenOffScreen(object sender, EventArgs e)
         {
-            /*SoundManager.Stop(SoundEffectsEnum.SpecialShip);
+            SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             this.enemies.Remove((EnemyShip)sender);
             this.canvas.Children.Remove(((EnemyShip)sender).Sprite);
-            this.hasSpecialShip = false;*/
+            this.hasSpecialShip = false;
 
         }
         #endregion

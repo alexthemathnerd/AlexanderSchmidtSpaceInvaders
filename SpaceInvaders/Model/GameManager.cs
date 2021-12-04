@@ -22,12 +22,6 @@ namespace SpaceInvaders.Model
         public int Score { get; private set; }
         public int CurrentLevel { get; private set; }
 
-
-        /// <summary>
-        /// Occurs when [game over event].
-        /// </summary>
-        public event EventHandler GameOverEvent;
-
         #endregion
 
         #region Constructors

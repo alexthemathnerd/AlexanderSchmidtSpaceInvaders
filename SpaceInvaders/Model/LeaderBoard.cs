@@ -40,5 +40,7 @@ namespace SpaceInvaders.Model
             serializer.Serialize(fileStream, user);
             fileStream.Close();
         }
+
+
     }
 }

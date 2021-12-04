@@ -1,0 +1,25 @@
+﻿<ContentDialog
+    x:Class="SpaceInvaders.View.LeaderBoardContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpaceInvaders.View"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Leaderboard"
+    PrimaryButtonText="Exit"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Left" Grid.Row="0">
+            <TextBlock Text="Name"></TextBlock>
+            <TextBlock Text="Score"></TextBlock>
+            <TextBlock Text="Level"></TextBlock>
+        </StackPanel>
+        <local:LeaderBoardControl Grid.Row="1"/>
+    </Grid>
+</ContentDialog>

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,10 +34,22 @@ namespace SpaceInvaders.View
             this.Frame.Navigate(typeof(MainPage));
         }
 
-        private void OnClickViewLeaderBoard(object sender, RoutedEventArgs e)
+        private async void OnClickViewLeaderBoard(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(LeaderBoardControl));
+            var leaderBoard = new LeaderBoardContentDialog();
+            leaderBoard.ShowAsync();
         }
 
+        protected async override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            this.startPageVideo.Source = null;
+        }
+
+      /*  protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            this.startPageVideo.Source =  "ms-appx:///Assets/StartPageVideo.mp4";
+        }*/ 
     }
 }

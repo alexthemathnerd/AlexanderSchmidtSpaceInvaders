@@ -149,6 +149,9 @@
     <Compile Include="Model\UserComparer\ScoreNameLevelCompartator.cs" />
     <Compile Include="Model\UserComparer\UserSort.cs" />
     <Compile Include="ViewModel\LeaderBoardViewModel.cs" />
+    <Compile Include="View\LeaderBoardContentDialog.xaml.cs">
+      <DependentUpon>LeaderBoardContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
@@ -232,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\LeaderBoardContentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -34,7 +34,6 @@
             <TextBox x:Name="nameTextBox" PlaceholderText="Name"/>
             <Button Content="Add Name" Click="AddTopPlayer_OnClick"/>
         </StackPanel>
-        
-        <Button Content="Play Again"/>
+        <Button Content="Home" Click="OnGoHome"/>
     </StackPanel>
 </Page>

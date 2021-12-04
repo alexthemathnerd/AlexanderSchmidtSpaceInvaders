@@ -46,6 +46,7 @@ namespace SpaceInvaders.View
             }
         }
 
+
         private void AddTopPlayer_OnClick(object sender, RoutedEventArgs e)
         {
             this.viewModel.AddTopPlayer(new User
@@ -60,6 +61,11 @@ namespace SpaceInvaders.View
         private void Sort_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             this.viewModel.Sort((UserSort) this.sorts.SelectedItem);
+        }
+
+        private void OnGoHome(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(StartPage));
         }
     }
 }

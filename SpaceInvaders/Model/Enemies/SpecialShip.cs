@@ -1,9 +1,5 @@
 ﻿using SpaceInvaders.View.Sprites;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model.Enemies
@@ -26,35 +22,28 @@ namespace SpaceInvaders.Model.Enemies
 
         public Bullet Shoot()
         {
-            Random rand = new Random();
+            var rand = new Random();
             int doShoot = rand.Next(100);
             if (doShoot < ChanceToShoot)
             {
-                return new Bullet(this, playerlocation);
+                return new Bullet(this, this.playerlocation);
             }
-
             return null;
+
         }
         public static bool Spawn()
         {
-            Random rand = new Random();
-            if (rand.Next(0,100) > 90) 
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-
+            var rand = new Random();
+            return rand.Next(0, 100) > 90;
+            
         }
         public override void Move()
         {
             this.MoveRight();
 
-            if (this.X > (((Canvas)this.Sprite.Parent)).Width)
+            if (this.X > ((Canvas)this.Sprite.Parent).Width)
             {
-                this.LeavesScreenEvent?.Invoke(this, new EventArgs());              
+                this.LeavesScreenEvent?.Invoke(this, EventArgs.Empty);              
             }
         }
     }
