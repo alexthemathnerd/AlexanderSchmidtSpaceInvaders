@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    RequestedTheme="Dark">
 
     <Grid >
         <Grid.RowDefinitions>
@@ -13,8 +14,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="50" Width="482" Canvas.Left="509" Canvas.Top="840" >
-            <Button Content="Start Game" Height="65" Width="128" Click="OnClickStartGame" Background="#33FFFFFF"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="50" HorizontalAlignment="Center">
+            <Button Content="Singleplayer" Height="65" Width="128" Click="OnClickSinglePlayer" Background="#33FFFFFF" />
+            <Button Content="Multiplayer" Height="65" Width="128" Click="OnClickMultiPlayer" Background="#33FFFFFF"/>
             <Button Content="Highscores" Height="65" Width="128" HorizontalAlignment="Center" Click="OnClickViewLeaderBoard"/>
             <Button Content="Reset Highscores" Height="65" Width="128" Click="ResetLeaderBoard_OnClick"/>
         </StackPanel>

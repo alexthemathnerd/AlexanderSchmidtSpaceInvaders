@@ -98,21 +98,32 @@ namespace SpaceInvaders.Model.Enemies
         ///     Precondition: none
         ///     Postcondition: a bullet was shot or not. It is random.
         /// </summary>
-        public void ShootBullets(GameObject player)
+        public void ShootBullets(GameObject player1, GameObject player2)
         {
             foreach (var aEnemy in this.enemies)
             {
                 if (aEnemy is IShoot iShootEnemy && this.Bullets.Count < EnemiesBulletCap)
                 {
                     Bullet bullet;
+                    double[] location;
+                    Random random = new Random();
+                    if (random.Next(1, 101) < 50 || player2 == null)
+                    {
+                        location = new[] { player1.X, player1.Y };
+                    }
+                    else
+                    {
+                        location = new[] { player2.X, player2.Y };
+                    }
+
                     switch (iShootEnemy)
                     { 
                         case PlanetShip planetShip:
-                            planetShip.PlayerLocation = new [] { player.X, player.Y };
+                            planetShip.PlayerLocation = location;
                             bullet = ((PlanetShip)iShootEnemy).Shoot();
                             break;
                         case SpecialShip specialShip:
-                            specialShip.PlayerLocation = new [] { player.X, player.Y };
+                            specialShip.PlayerLocation = location;
                             bullet = ((SpecialShip)iShootEnemy).Shoot();
                             break;
                         default:

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
-
-using Windows.UI.Xaml.Navigation;
 using SpaceInvaders.Model;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,9 +16,14 @@ namespace SpaceInvaders.View
             this.InitializeComponent();
         }
 
-        private void OnClickStartGame(object sender, RoutedEventArgs e)
+        private void OnClickSinglePlayer(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(MainPage));
+            this.Frame.Navigate(typeof(MainPage), 1);
+        }
+
+        private void OnClickMultiPlayer(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage), 2);
         }
 
         private async void OnClickViewLeaderBoard(object sender, RoutedEventArgs e)
