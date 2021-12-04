@@ -22,6 +22,8 @@ namespace SpaceInvaders.Model
 
         private readonly Canvas canvas;
 
+        public event EventHandler GameOverEvent;
+
         /// <summary>
         /// Gets the score.
         /// </summary>

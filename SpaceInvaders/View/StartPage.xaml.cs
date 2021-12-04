@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+
+using Windows.UI.Xaml.Navigation;
 using SpaceInvaders.Model;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -39,10 +40,5 @@ namespace SpaceInvaders.View
             LeaderBoard.WriteTopPlayers(new List<User>());
 
         }
-      /*  protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            this.startPageVideo.Source =  "ms-appx:///Assets/StartPageVideo.mp4";
-        }*/ 
     }
 }

@@ -26,6 +26,8 @@ namespace SpaceInvaders.Model
     {
         #region Properties
 
+        private const double VolumeLevel = .4;
+
         private static Dictionary<SoundEffectsEnum, MediaPlayer> SoundEffects { get; } =
             new Dictionary<SoundEffectsEnum, MediaPlayer>
             {
@@ -35,7 +37,7 @@ namespace SpaceInvaders.Model
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/Player_Fire.wav")),
                         AutoPlay = false,
-                        Volume = .5
+                        Volume = VolumeLevel
                     }
                 },
                 {
@@ -45,7 +47,7 @@ namespace SpaceInvaders.Model
                         Source = MediaSource.CreateFromUri(
                             new Uri("ms-appx:///Assets/SoundEffects/Player_Destroyed.wav")),
                         AutoPlay = false,
-                        Volume = .5
+                        Volume = VolumeLevel
                     }
                 },
                 {
@@ -54,7 +56,7 @@ namespace SpaceInvaders.Model
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/Enemy_Fire.wav")),
                         AutoPlay = false,
-                        Volume = .5
+                        Volume = VolumeLevel
                     }
                 },
                 {
@@ -64,7 +66,7 @@ namespace SpaceInvaders.Model
                         Source = MediaSource.CreateFromUri(
                             new Uri("ms-appx:///Assets/SoundEffects/Enemy_Destroyed.wav")),
                         AutoPlay = false,
-                        Volume = .5
+                        Volume = VolumeLevel
                     }
                 },
                 {
@@ -73,7 +75,7 @@ namespace SpaceInvaders.Model
                    {
                        Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/SpecialShip.wav")),
                        AutoPlay = false,
-                       Volume = .5
+                       Volume = VolumeLevel
                    }
                 },
                 {
@@ -82,7 +84,7 @@ namespace SpaceInvaders.Model
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/You_Lose.wav")),
                         AutoPlay = false,
-                        Volume = .5
+                        Volume = VolumeLevel
                     }
                 },
                 {
@@ -91,7 +93,7 @@ namespace SpaceInvaders.Model
                     {
                         Source = MediaSource.CreateFromUri(new Uri("ms-appx:///Assets/SoundEffects/You_Win.wav")),
                         AutoPlay = false,
-                        Volume = .5
+                        Volume = VolumeLevel
                     }
                 }
             };
