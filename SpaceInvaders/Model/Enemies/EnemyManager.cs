@@ -71,7 +71,7 @@ namespace SpaceInvaders.Model.Enemies
         ///     Initializes the enemies.
         /// </summary>
         /// <param name="levelNumber">The current level to initialize</param>
-        public void InitializeLevel(int levelNumber)
+        public void Initialize(int levelNumber)
         {
             this.enemies.Clear();
             this.Bullets.Clear();
@@ -102,17 +102,15 @@ namespace SpaceInvaders.Model.Enemies
                 {
                     Bullet bullet;
                     switch (iShootEnemy)
-                    {
+                    { 
                         case PlanetShip planetShip:
                             planetShip.playerlocation = new double[] { player.X, player.Y };
                             bullet = ((PlanetShip)iShootEnemy).Shoot();
                             break;
-
-                       case SpecialShip specialShip:
+                        case SpecialShip specialShip:
                             specialShip.playerlocation = new double[] { player.X, player.Y };
                             bullet = ((SpecialShip)iShootEnemy).Shoot();
                             break;
-
                         default:
                             bullet = iShootEnemy.Shoot();
                             break;
@@ -209,10 +207,10 @@ namespace SpaceInvaders.Model.Enemies
 
         private void removeSpecialShipWhenOffScreen(object sender, EventArgs e)
         {
-            /*SoundManager.Stop(SoundEffectsEnum.SpecialShip);
+            SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             this.enemies.Remove((EnemyShip)sender);
             this.canvas.Children.Remove(((EnemyShip)sender).Sprite);
-            this.hasSpecialShip = false;*/
+            this.hasSpecialShip = false;
 
         }
         #endregion

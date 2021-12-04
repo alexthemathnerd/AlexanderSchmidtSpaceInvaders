@@ -55,7 +55,6 @@ namespace SpaceInvaders.View
             this.healthSummary.Text = "Health: 3";
 
             Window.Current.CoreWindow.KeyDown += gameManager.OnKeyDown;
-            /* Window.Current.CoreWindow.KeyUp += gameManager.OnKeyUp;*/
 
             this.timer = new DispatcherTimer();
             this.timer.Tick += gameManager.OnTick;
@@ -69,17 +68,18 @@ namespace SpaceInvaders.View
 
         private void onLevelChange(object sender, LevelChangeEventArgs e)
         {
-            Debug.WriteLine("LEVEL UP!");
+            var gameManager = (GameManager)sender;
             if (e.NewLevel > 3)
             {
                 this.timer.Stop();
                 this.gameSummary.Text = "Game Over. You Win!";
-                var gameManager = (GameManager)sender;
+                
                 this.Frame.Navigate(typeof(EndGamePage), new int[] { gameManager.Score, gameManager.CurrentLevel - 1});
             }
             else
             {
                 this.gameSummary.Text = $"Level: {e.NewLevel}";
+                gameManager.InitializeGame();
             }
         }
         private void onGameWin(object sender, EventArgs e)

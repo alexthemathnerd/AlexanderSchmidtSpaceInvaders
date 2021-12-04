@@ -56,16 +56,17 @@ namespace SpaceInvaders.Model
             this.Bullets = new List<Bullet>();
             this.lastShotFired = DateTime.MinValue; 
             this.PlayerHealth = 3;
-            this.initialize();
         }
 
-        private void initialize()
+        public void Initialize()
         {
+            this.Bullets.Clear();
             this.createAndPlacePlayerShip();
         }
 
         private void createAndPlacePlayerShip()
         {
+            this.canvas.Children.Remove(this.player?.Sprite);
             this.player = new PlayerShip();
             this.canvas.Children.Add(this.player.Sprite);
             this.placePlayerShipNearBottomOfBackgroundCentered();
