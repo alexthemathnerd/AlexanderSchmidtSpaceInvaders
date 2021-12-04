@@ -5,6 +5,9 @@ using Windows.Media.Playback;
 
 namespace SpaceInvaders.Model
 {
+    /// <summary>
+    /// The List of Sound Effects
+    /// </summary>
     public enum SoundEffectsEnum
     {
         PlayerFire,
@@ -16,7 +19,9 @@ namespace SpaceInvaders.Model
         Lose
     }
 
-    /// <summary>Plays GameSounds.</summary>
+    /// <summary>
+    /// Manages the Sounds
+    /// </summary>
     public class SoundManager
     {
         #region Properties
@@ -95,7 +100,9 @@ namespace SpaceInvaders.Model
 
         #region Methods
 
-        /// <summary>Plays the specified sound.</summary>
+        /// <summary>
+        /// Plays the specified sound.
+        /// </summary>
         /// <param name="sound">The sound.</param>
         public static void Play(SoundEffectsEnum sound)
         {
@@ -105,7 +112,9 @@ namespace SpaceInvaders.Model
             soundEffect.Play();
         }
 
-        /// <summary>Stop the specified sound.</summary>
+        /// <summary>
+        /// Stop the specified sound.
+        /// </summary>
         /// <param name="sound">The sound.</param>
         public static void Stop(SoundEffectsEnum sound)
         {

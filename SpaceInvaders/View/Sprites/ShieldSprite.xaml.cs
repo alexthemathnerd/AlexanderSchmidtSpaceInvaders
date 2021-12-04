@@ -1,7 +1,7 @@
 ﻿namespace SpaceInvaders.View.Sprites
 {
     /// <summary>
-    ///     Draws a player ship.
+    ///     Draws a shield.
     /// </summary>
     /// <seealso cref="Windows.UI.Xaml.Controls.UserControl" />
     public sealed partial class ShieldSprite

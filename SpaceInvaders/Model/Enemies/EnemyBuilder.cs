@@ -31,9 +31,10 @@ namespace SpaceInvaders.Model.Enemies
         /// <summary>
         /// Builds the row of enemies.
         /// </summary>
-        /// <typeparam name="T">The Enemy to Populate the Row with</typeparam>
         /// <param name="canvas">The canvas to add the row to</param>
+        /// <param name="type">The type of enemies i</param>
         /// <param name="amount">The amount of enemies on the row</param>
+        /// <param name="variance">The amount of enemies on the row</param>
         /// <param name="row">The row to be added to</param>
         /// <returns>A list of enemies in the row</returns>
         public static IList<EnemyShip> BuildRow(Canvas canvas, Type type, int amount, double variance, int row)
@@ -53,6 +54,12 @@ namespace SpaceInvaders.Model.Enemies
             return enemies;
         }
 
+        /// <summary>
+        /// Builds the level.
+        /// </summary>
+        /// <param name="canvas">The canvas.</param>
+        /// <param name="level">The level.</param>
+        /// <returns></returns>
         public static IList<EnemyShip> BuildLevel(Canvas canvas, Level level)
         {
             var enemies = new List<EnemyShip>();

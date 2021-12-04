@@ -16,13 +16,26 @@ namespace SpaceInvaders.Model
     {
         #region Data members
 
-        private PlayerManager playerManager;
-        private EnemyManager enemyManager;
-        private ShieldManager shieldManager;
+        private readonly PlayerManager playerManager;
+        private readonly EnemyManager enemyManager;
+        private readonly ShieldManager shieldManager;
 
         private readonly Canvas canvas;
 
+        /// <summary>
+        /// Gets the score.
+        /// </summary>
+        /// <value>
+        /// The score.
+        /// </value>
         public int Score { get; private set; }
+
+        /// <summary>
+        /// Gets the current level.
+        /// </summary>
+        /// <value>
+        /// The current level.
+        /// </value>
         public int CurrentLevel { get; private set; }
 
 
@@ -64,7 +77,11 @@ namespace SpaceInvaders.Model
         /// </summary>
         public event EventHandler<HealthUpdateArgs> HealthUpdateEvent;
 
+        /// <summary>
+        /// Occurs when [level change event].
+        /// </summary>
         public event EventHandler<LevelChangeEventArgs> LevelChangeEvent;
+
         /// <summary>
         ///     Initializes the game placing player ship and enemy ship in the game.
         ///     Precondition: background != null
@@ -96,7 +113,7 @@ namespace SpaceInvaders.Model
             this.playerManager.MoveBullets();
             this.enemyManager.MoveEnemies();
             this.enemyManager.AnimateEnemies();
-            this.enemyManager.ShootBullets(this.playerManager.player);
+            this.enemyManager.ShootBullets(this.playerManager.Player);
             this.enemyManager.MoveBullets();
             this.checkCollisions();
         }
@@ -148,7 +165,7 @@ namespace SpaceInvaders.Model
             if (sender is SpecialShip)
             {
                 this.playerManager.PowerUp();
-                this.enemyManager.hasSpecialShip = false;
+                this.enemyManager.HasSpecialShip = false;
                 SoundManager.Stop(SoundEffectsEnum.SpecialShip);
             }
 

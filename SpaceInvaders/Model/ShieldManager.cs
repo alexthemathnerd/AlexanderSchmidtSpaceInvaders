@@ -1,30 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 
 namespace SpaceInvaders.Model
 {
+    /// <summary>
+    /// Handles the shields
+    /// </summary>
     public class ShieldManager
     {
         private const int ShieldCount = 3;
         private const int ShieldGap = 150;
         private const int ShieldWidth = 64;
 
-        private IList<Shield> shields;
+        private readonly IList<Shield> shields;
 
         /// <summary>
         /// Occurs when [shield bullet collide event].
         /// </summary>
         public event EventHandler<CollisionEventArgs> ShieldBulletCollideEvent;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ShieldManager"/> class.
+        /// </summary>
         public ShieldManager()
         {
             this.shields = new List<Shield>();
         }
 
+        /// <summary>
+        /// Initializes the specified canvas.
+        /// </summary>
+        /// <param name="canvas">The canvas.</param>
         public void Initialize(Canvas canvas)
         {
             this.shields.Clear();

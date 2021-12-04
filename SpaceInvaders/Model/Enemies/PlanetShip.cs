@@ -7,12 +7,19 @@ namespace SpaceInvaders.Model.Enemies
     /// Handles the Planet Ship
     /// </summary>
     /// <seealso cref="SpaceInvaders.Model.Enemies.MotherShip" />
-    public class PlanetShip : MotherShip, IShoot
+    public class PlanetShip : MotherShip
     {
         private const int TurnCap = 5;
         private int turnCount;
         private bool shouldGoOut;
-        public double[] playerlocation;
+
+        /// <summary>
+        /// Gets and sets the player location.
+        /// </summary>
+        /// <value>
+        /// The player location.
+        /// </value>
+        public double[] PlayerLocation { get; set; }
 
 
         /// <summary>
@@ -36,7 +43,7 @@ namespace SpaceInvaders.Model.Enemies
             int doShoot = rand.Next(100);
             if (doShoot < ChanceToShoot)
             {
-                return new Bullet(this,playerlocation);
+                return new Bullet(this, this.PlayerLocation);
             }
 
             return null;

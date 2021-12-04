@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpaceInvaders.Model
 {
+
+    /// <summary>
+    /// Event Args for LevelChange Event
+    /// </summary>
+    /// <seealso cref="System.EventArgs" />
     public class LevelChangeEventArgs : EventArgs
     {
 

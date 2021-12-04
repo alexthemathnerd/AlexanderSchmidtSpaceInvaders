@@ -11,10 +11,6 @@
     Height="64"
     Width="64">
 
-    <UserControl.Resources>
-        <SolidColorBrush x:Key="EnemyShipColor" Color="Orange"/>
-    </UserControl.Resources>
-
     <Canvas>
         <local:AlienShipSprite></local:AlienShipSprite>
         <Rectangle x:Name="leftArm" Width="4" Height="22" Fill="Crimson" Canvas.Left="7" Canvas.Top="10"/>
