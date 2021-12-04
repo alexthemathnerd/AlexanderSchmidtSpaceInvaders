@@ -16,7 +16,7 @@
         <StackPanel Grid.Row="2" Orientation="Horizontal" Spacing="50" Width="482">
             <Button Content="Start Game" Height="65" Width="128" Click="OnClickStartGame" Background="#33FFFFFF"/>
             <Button Content="Highscores" Height="65" Width="128" HorizontalAlignment="Center" Click="OnClickViewLeaderBoard"/>
-            <Button Content="Reset Highscores" Height="65" Width="128"/>
+            <Button Content="Reset Highscores" Height="65" Width="128" Click="ResetLeaderBoard_OnClick"/>
         </StackPanel>
         <MediaPlayerElement Grid.Row="1" x:Name="startPageVideo" Source="ms-appx:///Assets/StartPageVideo.mp4"
                             Width="780" AutoPlay="True" AreTransportControlsEnabled="False"/>
