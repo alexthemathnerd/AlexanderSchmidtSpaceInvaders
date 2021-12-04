@@ -19,8 +19,11 @@ namespace SpaceInvaders.Model
         private PlayerManager playerManager;
         private EnemyManager enemyManager;
         private readonly Canvas canvas;
-        private int score;
-        private int currentLevel;
+
+        public int Score { get; private set; }
+        public int CurrentLevel { get; private set; }
+
+
         /// <summary>
         /// Occurs when [game over event].
         /// </summary>
@@ -50,8 +53,8 @@ namespace SpaceInvaders.Model
         public GameManager(Canvas canvas)
         {
             this.canvas = canvas;
-            this.score = 0;
-            this.currentLevel = 0;
+            this.Score = 0;
+            this.CurrentLevel = 0;
         }
 
         #endregion
@@ -68,8 +71,8 @@ namespace SpaceInvaders.Model
             this.playerManager = new PlayerManager(this.canvas);
             this.playerManager.EnemyBulletCollideEvent += this.onPlayerCollision;
             this.enemyManager = new EnemyManager(this.canvas);
-            this.currentLevel = 1;
-            this.enemyManager.InitializeLevel(this.currentLevel);
+            this.CurrentLevel = 1;
+            this.enemyManager.InitializeLevel(this.CurrentLevel);
             this.enemyManager.PlayerBulletCollideEvent += this.onEnemyCollision;
 
         }
@@ -107,9 +110,9 @@ namespace SpaceInvaders.Model
 
             if (!this.enemyManager.HasMoreEnemies)
             {
-                this.currentLevel++;
-                this.enemyManager.InitializeLevel(this.currentLevel);
-                this.LevelChangeEvent?.Invoke(this, new LevelChangeEventArgs(this.currentLevel));
+                this.CurrentLevel++;
+                this.enemyManager.InitializeLevel(this.CurrentLevel);
+                this.LevelChangeEvent?.Invoke(this, new LevelChangeEventArgs(this.CurrentLevel));
             }
         }
 
@@ -143,8 +146,8 @@ namespace SpaceInvaders.Model
             this.canvas.Children.Remove(ship.Sprite);
             this.canvas.Children.Remove(e.Bullet.Sprite);
             this.playerManager.Bullets.Remove(e.Bullet);
-            this.score += ship.Score;
-            this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.score));
+            this.Score += ship.Score;
+            this.ScoreUpdateEvent?.Invoke(this, new ScoreUpdateArgs(this.Score));
 
             
         }

@@ -74,6 +74,8 @@ namespace SpaceInvaders.View
             {
                 this.timer.Stop();
                 this.gameSummary.Text = "Game Over. You Win!";
+                var gameManager = (GameManager)sender;
+                this.Frame.Navigate(typeof(EndGamePage), new int[] { gameManager.Score, gameManager.CurrentLevel - 1});
             }
             else
             {
@@ -96,7 +98,8 @@ namespace SpaceInvaders.View
         {
             this.timer.Stop();
             this.gameSummary.Text = "Game Over. You Lose!";
-            this.Frame.Navigate(typeof(EndGamePage));
+            var gameManager = (GameManager)sender;
+            this.Frame.Navigate(typeof(EndGamePage), new int[] {gameManager.Score, gameManager.CurrentLevel - 1});
 
         }
 

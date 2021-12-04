@@ -144,6 +144,10 @@
     <Compile Include="Model\ScoreUpdateArgs.cs" />
     <Compile Include="Model\SoundManager.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Model\UserComparer\LevelScoreNameCompartator.cs" />
+    <Compile Include="Model\UserComparer\NameScoreLevelCompartator.cs" />
+    <Compile Include="Model\UserComparer\ScoreNameLevelCompartator.cs" />
+    <Compile Include="Model\UserComparer\UserSort.cs" />
     <Compile Include="ViewModel\LeaderBoardViewModel.cs" />
     <Compile Include="View\EndGamePage.xaml.cs">
       <DependentUpon>EndGamePage.xaml</DependentUpon>

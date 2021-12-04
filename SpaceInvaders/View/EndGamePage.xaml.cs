@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SpaceInvaders.Model;
+using SpaceInvaders.Model.UserComparer;
 using SpaceInvaders.ViewModel;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -24,16 +25,41 @@ namespace SpaceInvaders.View
     /// </summary>
     public sealed partial class EndGamePage : Page
     {
+
+        private int score;
+        private int level;
+        private LeaderBoardViewModel viewModel;
+
         public EndGamePage()
         {
             this.InitializeComponent();
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var viewModel = (LeaderBoardViewModel)this.DataContext;
-            viewModel.AddTopPlayer(new User {CompletedLevel = 1, Score = 20, Name = "Alex"});
+            this.viewModel = (LeaderBoardViewModel)this.DataContext;
+            this.score = ((int[])e.Parameter)[0];
+            this.level = ((int[])e.Parameter)[1];
+            if (this.viewModel.IsTopPlayer(this.score))
+            {
+                this.topTenForm.Visibility = Visibility.Visible;
+            }
+        }
 
+        private void AddTopPlayer_OnClick(object sender, RoutedEventArgs e)
+        {
+            this.viewModel.AddTopPlayer(new User
+            {
+                Name = this.nameTextBox.Text,
+                CompletedLevel = this.level,
+                Score = this.score
+            });
+            this.topTenForm.Visibility = Visibility.Collapsed;
+        }
+
+        private void Sort_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.viewModel.Sort((UserSort) this.sorts.SelectedItem);
         }
     }
 }
